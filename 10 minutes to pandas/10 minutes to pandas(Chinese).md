@@ -1,8 +1,8 @@
-# 10 minutes to pandas(English)
+# 10 分钟入门 pandas（英文）
 
-This is a short introduction to pandas, geared mainly for new users. You can see more complex recipes in the [Cookbook](https://pandas.pydata.org/docs/user_guide/cookbook.html#cookbook).
+这是 pandas 的简短介绍，主要针对新用户。你可以在 [Cookbook](https://pandas.pydata.org/docs/user_guide/cookbook.html#cookbook) 中看到更复杂的示例。
 
-Customarily, we import as follows:
+通常，我们这样导入：
 
 ```python
 In [1]: import numpy as np
@@ -10,19 +10,19 @@ In [1]: import numpy as np
 In [2]: import pandas as pd
 ```
 
-## Basic data structures in pandas
+## pandas 中的基本数据结构
 
-Pandas provides two types of classes for handling data:
+Pandas 提供了两种类型的类来处理数据：
 
-1. [`Series`](https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series): **a one-dimensional labeled array holding data of any type**, such as integers, strings, Python objects etc.
+1. [`Series`](https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series)：**一个一维标记数组，可以包含任何类型的数据**，如整数、字符串、Python 对象等。
 
-2. [`DataFrame`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame): a two-dimensional data structure that holds data like a two-dimension array or a table with rows and columns.
+2. [`DataFrame`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame)：一个二维数据结构，类似于二维数组或具有行和列的表格。
 
-## Object creation
+## 对象创建
 
-See the [Intro to data structures section](https://pandas.pydata.org/docs/user_guide/dsintro.html#dsintro).
+请参阅 [数据结构介绍部分](https://pandas.pydata.org/docs/user_guide/dsintro.html#dsintro)。
 
-Creating a `Series` by passing a list of values, letting pandas create a default [`RangeIndex`](https://pandas.pydata.org/docs/reference/api/pandas.RangeIndex.html#pandas.RangeIndex).
+通过传递一个值列表来创建一个 `Series`，让 pandas 创建一个默认的 [`RangeIndex`](https://pandas.pydata.org/docs/reference/api/pandas.RangeIndex.html#pandas.RangeIndex)。
 
 ```python
 In [3]: s = pd.Series([1, 3, 5, np.nan, 6, 8])
@@ -38,7 +38,7 @@ Out[4]:
 dtype: float64
 ```
 
-Creating a `DataFrame` by passing a NumPy array with a datetime index using [`date_range()`](https://pandas.pydata.org/docs/reference/api/pandas.date_range.html#pandas.date_range) and labeled columns:
+通过传递一个带有日期时间索引的NumPy数组和标记列来创建`DataFrame`，使用[`date_range()`](https://pandas.pydata.org/docs/reference/api/pandas.date_range.html#pandas.date_range)：
 
 ```python
 In [5]: dates = pd.date_range("20130101", periods=6)
@@ -62,7 +62,7 @@ Out[8]:
 2013-01-06 -0.673690  0.113648 -1.478427  0.524988
 ```
 
-Creating a `DataFrame` by passing a dictionary of objects where the keys are the column labels and the values are the column values.
+通过传递一个对象字典来创建`DataFrame`，其中键是列标签，值是列值。
 
 ```python
 In [9]: df2 = pd.DataFrame(
@@ -86,7 +86,7 @@ Out[10]:
 3  1.0 2013-01-02  1.0  3  train  foo
 ```
 
-The columns of the resulting `DataFrame` have different [`dtypes`](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes):
+生成的`DataFrame`的列具有不同的[`dtypes`](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes)：
 
 ```python
 In [11]: df2.dtypes
@@ -100,7 +100,7 @@ F           object
 dtype: object
 ```
 
-If you’re using IPython, tab completion for column names (as well as public attributes) is automatically enabled. Here’s a subset of the attributes that will be completed:
+如果你正在使用IPython，列名（以及公共属性）的制表符补全将自动启用。以下是会补全的属性子集：
 
 ```python
 In [12]: df2.<TAB>  # noqa: E225, E999
@@ -118,13 +118,13 @@ df2.applymap           df2.diff
 df2.B                  df2.duplicated
 ```
 
-As you can see, the columns `A`, `B`, `C`, and `D` are automatically tab completed. `E` and `F` are there as well; the rest of the attributes have been truncated for brevity.
+如你所见，列`A`、`B`、`C`和`D`会自动进行制表符补全。`E`和`F`也在其中；为了简洁起见，其余属性已被截断。
 
-## Viewing data
+## 查看数据
 
-See the [Essentially basics functionality section](https://pandas.pydata.org/docs/user_guide/basics.html#basics).
+请参阅[基础功能部分](https://pandas.pydata.org/docs/user_guide/basics.html#basics)。
 
-Use [`DataFrame.head()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html#pandas.DataFrame.head) and [`DataFrame.tail()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.tail.html#pandas.DataFrame.tail) to view the top and bottom rows of the frame respectively:
+使用[`DataFrame.head()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html#pandas.DataFrame.head)和[`DataFrame.tail()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.tail.html#pandas.DataFrame.tail)来分别查看框架的顶部和底部行：
 
 ```python
 In [13]: df.head()
@@ -144,7 +144,7 @@ Out[14]:
 2013-01-06 -0.673690  0.113648 -1.478427  0.524988
 ```
 
-Display the [`DataFrame.index`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.index.html#pandas.DataFrame.index) or [`DataFrame.columns`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.columns.html#pandas.DataFrame.columns):
+显示[`DataFrame.index`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.index.html#pandas.DataFrame.index)或[`DataFrame.columns`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.columns.html#pandas.DataFrame.columns)：
 
 ```python
 In [15]: df.index
@@ -157,7 +157,7 @@ In [16]: df.columns
 Out[16]: Index(['A', 'B', 'C', 'D'], dtype='object')
 ```
 
-Return a NumPy representation of the underlying data with [`DataFrame.to_numpy()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_numpy.html#pandas.DataFrame.to_numpy) without the index or column labels:
+使用[`DataFrame.to_numpy()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_numpy.html#pandas.DataFrame.to_numpy)返回基础数据的NumPy表示形式（不包括索引或列标签）：
 
 ```python
 In [17]: df.to_numpy()
@@ -170,7 +170,7 @@ array([[ 0.4691, -0.2829, -1.5091, -1.1356],
        [-0.6737,  0.1136, -1.4784,  0.525 ]])
 ```
 
-> **NumPy arrays have one dtype for the entire array while pandas DataFrames have one dtype per column.** When you call `DataFrame.to_numpy()`, pandas will find the NumPy dtype that can hold all of the dtypes in the DataFrame. If the common data type is `object`, `DataFrame.to_numpy()` will require copying data.
+> **NumPy数组对整个数组有一个dtype，而pandas DataFrame每列有一个dtype。**当你调用`DataFrame.to_numpy()`时，pandas会找到可以包含DataFrame中所有dtypes的NumPy dtype。如果公共数据类型是`object`，`DataFrame.to_numpy()`将需要复制数据。
 > ```python
 > In [18]: df2.dtypes
 > Out[18]: 
@@ -191,7 +191,7 @@ array([[ 0.4691, -0.2829, -1.5091, -1.1356],
 >       dtype=object)
 > ```
 
-[`describe()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html#pandas.DataFrame.describe) shows a quick statistic summary of your data:
+[`describe()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.describe.html#pandas.DataFrame.describe)会显示数据的快速统计摘要：
 
 ```python
 In [20]: df.describe()
@@ -207,7 +207,7 @@ min   -0.861849 -2.104569 -1.509059 -1.135632
 max    1.212112  0.567020  0.276232  1.071804
 ```
 
-Transposing your data:
+数据的转置：
 
 ```python
 In [21]: df.T
@@ -219,7 +219,7 @@ C   -1.509059    0.119209   -0.494929   -1.039575    0.276232   -1.478427
 D   -1.135632   -1.044236    1.071804    0.271860   -1.087401    0.524988
 ```
 
-[`DataFrame.sort_index()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_index.html#pandas.DataFrame.sort_index) sorts by an axis:
+[`DataFrame.sort_index()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_index.html#pandas.DataFrame.sort_index)根据轴进行排序：
 
 ```python
 In [22]: df.sort_index(axis=1, ascending=False)
@@ -233,7 +233,7 @@ Out[22]:
 2013-01-06  0.524988 -1.478427  0.113648 -0.673690
 ```
 
-[`DataFrame.sort_values()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html#pandas.DataFrame.sort_values) sorts by values:
+[`DataFrame.sort_values()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html#pandas.DataFrame.sort_values)根据值进行排序：
 
 ```python
 In [23]: df.sort_values(by="B")
@@ -247,15 +247,15 @@ Out[23]:
 2013-01-05 -0.424972  0.567020  0.276232 -1.087401
 ```
 
-## Selection
+## 选择
 
-> While standard Python / NumPy expressions for selecting and setting are intuitive and come in handy for interactive work, for production code, we recommend the optimized pandas data access methods, [`DataFrame.at()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.at.html#pandas.DataFrame.at), [`DataFrame.iat()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iat.html#pandas.DataFrame.iat), [`DataFrame.loc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html#pandas.DataFrame.loc) and [`DataFrame.iloc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc).
+> 虽然Python/NumPy的标准表达式在选择和设置时非常直观，并且对于交互式工作非常有用，但对于生产代码，我们推荐使用优化的pandas数据访问方法，即[`DataFrame.at()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.at.html#pandas.DataFrame.at)、[`DataFrame.iat()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iat.html#pandas.DataFrame.iat)、[`DataFrame.loc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html#pandas.DataFrame.loc)和[`DataFrame.iloc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc)。
 
-See the indexing documentation [Indexing and Selecting Data](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing) and [MultiIndex / Advanced Indexing](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced).
+请参见索引文档[索引和选择数据](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing)和[MultiIndex / 高级索引](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced)。
 
 ### Getitem (`[]`)
 
-For a `DataFrame`, passing a single label selects a columns and yields a `Series` equivalent to `df.A`:
+对于`DataFrame`，传递单个标签将选择一列，并返回一个等同于`df.A`的`Series`：
 
 ```python
 In [24]: df["A"]
@@ -269,7 +269,7 @@ Out[24]:
 Freq: D, Name: A, dtype: float64
 ```
 
-For a `DataFrame`, passing a slice `:` selects matching rows:
+对于`DataFrame`，传递切片`:`将选择匹配的行：
 
 ```python
 In [25]: df[0:3]
@@ -287,11 +287,11 @@ Out[26]:
 2013-01-04  0.721555 -0.706771 -1.039575  0.271860
 ```
 
-### Selection by label
+### 按标签选择
 
-See more in [Selection by Label](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-label) using [`DataFrame.loc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html#pandas.DataFrame.loc) or [`DataFrame.at()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.at.html#pandas.DataFrame.at).
+使用[`DataFrame.loc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html#pandas.DataFrame.loc)或[`DataFrame.at()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.at.html#pandas.DataFrame.at)在[按标签选择](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-label)中查看更多内容。
 
-Selecting a row matching a label:
+选择与标签匹配的行：
 
 ```python
 In [27]: df.loc[dates[0]]
@@ -303,7 +303,7 @@ D   -1.135632
 Name: 2013-01-01 00:00:00, dtype: float64
 ```
 
-Selecting all rows (`:`) with a select column labels:
+选择所有行（`:`）与选定的列标签：
 
 ```python
 In [28]: df.loc[:, ["A", "B"]]
@@ -317,7 +317,7 @@ Out[28]:
 2013-01-06 -0.673690  0.113648
 ```
 
-For label slicing, both endpoints are included:
+对于标签切片，两个端点都被包含在内：
 
 ```python
 In [29]: df.loc["20130102":"20130104", ["A", "B"]]
@@ -328,25 +328,25 @@ Out[29]:
 2013-01-04  0.721555 -0.706771
 ```
 
-Selecting a single row and column label returns a scalar:
+选择单个行和列标签返回一个标量：
 
 ```python
 In [30]: df.loc[dates[0], "A"]
 Out[30]: 0.4691122999071863
 ```
 
-For getting fast access to a scalar (equivalent to the prior method):
+为了快速访问标量（相当于前面的方法）：
 
 ```python
 In [31]: df.at[dates[0], "A"]
 Out[31]: 0.4691122999071863
 ```
 
-### Selection by position
+### 通过位置选择
 
-See more in [Selection by Position](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-integer) using [`DataFrame.iloc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc) or [`DataFrame.iat()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iat.html#pandas.DataFrame.iat).
+使用[`DataFrame.iloc()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iloc.html#pandas.DataFrame.iloc)或[`DataFrame.iat()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iat.html#pandas.DataFrame.iat)在[通过位置选择](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-integer)中查看更多内容。
 
-Select via the position of the passed integers:
+通过传递的整数的位置进行选择：
 
 ```python
 In [32]: df.iloc[3]
@@ -358,7 +358,7 @@ D    0.271860
 Name: 2013-01-04 00:00:00, dtype: float64
 ```
 
-Integer slices acts similar to NumPy/Python:
+整数切片的行为类似于NumPy/Python：
 
 ```python
 In [33]: df.iloc[3:5, 0:2]
@@ -368,7 +368,7 @@ Out[33]:
 2013-01-05 -0.424972  0.567020
 ```
 
-Lists of integer position locations:
+整数位置列表：
 
 ```python
 In [34]: df.iloc[[1, 2, 4], [0, 2]]
@@ -379,7 +379,7 @@ Out[34]:
 2013-01-05 -0.424972  0.276232
 ```
 
-For slicing rows explicitly:
+明确地对行进行切片：
 
 ```python
 In [35]: df.iloc[1:3, :]
@@ -389,7 +389,7 @@ Out[35]:
 2013-01-03 -0.861849 -2.104569 -0.494929  1.071804
 ```
 
-For slicing columns explicitly:
+明确地对列进行切片：
 
 ```python
 In [36]: df.iloc[:, 1:3]
@@ -403,23 +403,23 @@ Out[36]:
 2013-01-06  0.113648 -1.478427
 ```
 
-For getting a value explicitly:
+明确地获取一个值：
 
 ```python
 In [37]: df.iloc[1, 1]
 Out[37]: -0.17321464905330858
 ```
 
-For getting fast access to a scalar (equivalent to the prior method):
+快速访问一个标量值（等同于前一种方法）：
 
 ```python
 In [38]: df.iat[1, 1]
 Out[38]: -0.17321464905330858
 ```
 
-### Boolean indexing
+### 布尔索引
 
-Select rows where `df.A` is greater than `0`.
+选择`df.A`大于`0`的行。
 
 ```python
 In [39]: df[df["A"] > 0]
@@ -430,7 +430,7 @@ Out[39]:
 2013-01-04  0.721555 -0.706771 -1.039575  0.271860
 ```
 
-Selecting values from a `DataFrame` where a boolean condition is met:
+从`DataFrame`中选择满足布尔条件的值：
 
 ```python
 In [40]: df[df > 0]
@@ -444,7 +444,7 @@ Out[40]:
 2013-01-06       NaN  0.113648       NaN  0.524988
 ```
 
-Using [`isin()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.isin.html#pandas.Series.isin) method for filtering:
+使用[`isin()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.isin.html#pandas.Series.isin)方法进行过滤：
 
 ```python
 In [41]: df2 = df.copy()
@@ -468,9 +468,9 @@ Out[44]:
 2013-01-05 -0.424972  0.567020  0.276232 -1.087401  four
 ```
 
-### Setting
+### 设置
 
-Setting a new column automatically aligns the data by the indexes:
+通过索引自动对齐数据来设置新列：
 
 ```python
 In [45]: s1 = pd.Series([1, 2, 3, 4, 5, 6], index=pd.date_range("20130102", periods=6))
@@ -488,25 +488,25 @@ Freq: D, dtype: int64
 In [47]: df["F"] = s1
 ```
 
-Setting values by label:
+按标签设置值：
 
 ```python
 In [48]: df.at[dates[0], "A"] = 0
 ```
 
-Setting values by position:
+按位置设置值：
 
 ```python
 In [49]: df.iat[0, 1] = 0
 ```
 
-Setting by assigning with a NumPy array:
+通过分配NumPy数组来设置：
 
 ```python
 In [50]: df.loc[:, "D"] = np.array([5] * len(df))
 ```
 
-The result of the prior setting operations:
+之前设置操作的结果：
 
 ```python
 In [51]: df
@@ -520,7 +520,7 @@ Out[51]:
 2013-01-06 -0.673690  0.113648 -1.478427  5.0  5.0
 ```
 
-A `where` operation with setting:
+使用`where`操作的设置：
 
 ```python
 In [52]: df2 = df.copy()
@@ -538,11 +538,11 @@ Out[54]:
 2013-01-06 -0.673690 -0.113648 -1.478427 -5.0 -5.0
 ```
 
-## Missing data
+## 缺失数据
 
-For NumPy data types, `np.nan` represents missing data. It is by default not included in computations. See the [Missing Data section](https://pandas.pydata.org/docs/user_guide/missing_data.html#missing-data).
+对于NumPy数据类型，`np.nan`代表缺失数据。默认情况下，它不会被包含在计算中。请参阅[缺失数据部分](https://pandas.pydata.org/docs/user_guide/missing_data.html#missing-data)。
 
-Reindexing allows you to change/add/delete the index on a specified axis. This returns a copy of the data:
+重新索引允许您更改/添加/删除指定轴上的索引。这会返回数据的副本：
 
 ```python
 In [55]: df1 = df.reindex(index=dates[0:4], columns=list(df.columns) + ["E"])
@@ -558,7 +558,7 @@ Out[57]:
 2013-01-04  0.721555 -0.706771 -1.039575  5.0  3.0  NaN
 ```
 
-[`DataFrame.dropna()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dropna.html#pandas.DataFrame.dropna) drops any rows that have missing data:
+[`DataFrame.dropna()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dropna.html#pandas.DataFrame.dropna)会删除包含缺失数据的任何行：
 
 ```python
 In [58]: df1.dropna(how="any")
@@ -567,7 +567,7 @@ Out[58]:
 2013-01-02  1.212112 -0.173215  0.119209  5.0  1.0  1.0
 ```
 
-[`DataFrame.fillna()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html#pandas.DataFrame.fillna) fills missing data:
+[`DataFrame.fillna()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.fillna.html#pandas.DataFrame.fillna)会填充缺失数据：
 
 ```python
 In [59]: df1.fillna(value=5)
@@ -579,7 +579,7 @@ Out[59]:
 2013-01-04  0.721555 -0.706771 -1.039575  5.0  3.0  5.0
 ```
 
-[`isna()`](https://pandas.pydata.org/docs/reference/api/pandas.isna.html#pandas.isna) gets the boolean mask where values are nan:
+[`isna()`](https://pandas.pydata.org/docs/reference/api/pandas.isna.html#pandas.isna) 函数获取一个布尔掩码，其中值为 `nan`（非数字）的位置为 `True`：
 
 ```python
 In [60]: pd.isna(df1)
@@ -591,15 +591,15 @@ Out[60]:
 2013-01-04  False  False  False  False  False   True
 ```
 
-## Operations
+## 操作
 
-See the [Basic section on Binary Ops](https://pandas.pydata.org/docs/user_guide/basics.html#basics-binop).
+请参阅[关于二元操作的基础部分](https://pandas.pydata.org/docs/user_guide/basics.html#basics-binop)。
 
-### Stats
+### 统计
 
-Operations in general exclude missing data.
+通常，操作会排除缺失数据。
 
-Calculate the mean value for each column:
+计算每列的均值：
 
 ```python
 In [61]: df.mean()
@@ -612,7 +612,7 @@ F    3.000000
 dtype: float64
 ```
 
-Calculate the mean value for each row:
+计算每行的均值：
 
 ```python
 In [62]: df.mean(axis=1)
@@ -626,7 +626,7 @@ Out[62]:
 Freq: D, dtype: float64
 ```
 
-Operating with another `Series` or `DataFrame` with a different index or column will align the result with the union of the index or column labels. In addition, pandas automatically broadcasts along the specified dimension and will fill unaligned labels with `np.nan`.
+使用与另一个具有不同索引或列的`Series`或`DataFrame`进行操作时，结果将与索引或列标签的并集对齐。此外，pandas 会自动沿着指定的维度进行广播，并将未对齐的标签填充为 `np.nan`。
 
 ```python
 In [63]: s = pd.Series([1, 3, 5, np.nan, 6, 8], index=dates).shift(2)
@@ -652,9 +652,9 @@ Out[65]:
 2013-01-06       NaN       NaN       NaN  NaN  NaN
 ```
 
-### User defined functions
+### 用户自定义函数
 
-[`DataFrame.agg()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.agg.html#pandas.DataFrame.agg) and [`DataFrame.transform()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.transform.html#pandas.DataFrame.transform) applies a user defined function that reduces or broadcasts its result respectively.
+[`DataFrame.agg()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.agg.html#pandas.DataFrame.agg) 和 [`DataFrame.transform()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.transform.html#pandas.DataFrame.transform) 分别应用用户定义的函数，该函数将分别减少或广播其结果。
 
 ```python
 In [66]: df.agg(lambda x: np.mean(x) * 5.6)
@@ -677,9 +677,9 @@ Out[67]:
 2013-01-06  -68.177398   11.501219 -149.616767  506.0  506.0
 ```
 
-### Value Counts
+### 值计数
 
-See more at [Histogramming and Discretization](https://pandas.pydata.org/docs/user_guide/basics.html#basics-discretization).
+更多内容请查看[直方图和离散化](https://pandas.pydata.org/docs/user_guide/basics.html#basics-discretization)。
 
 ```python
 In [68]: s = pd.Series(np.random.randint(0, 7, size=10))
@@ -707,9 +707,9 @@ Out[70]:
 Name: count, dtype: int64
 ```
 
-### String Methods
+### 字符串方法
 
-`Series` is equipped with a set of string processing methods in the `str` attribute that make it easy to operate on each element of the array, as in the code snippet below. See more at [Vectorized String Methods](https://pandas.pydata.org/docs/user_guide/text.html#text-string-methods).
+`Series` 对象配备了`str`属性中的一组字符串处理方法，使得对每个数组元素进行操作变得容易，如下面的代码片段所示。更多内容请查看[矢量化字符串方法](https://pandas.pydata.org/docs/user_guide/text.html#text-string-methods)。
 
 ```python
 In [71]: s = pd.Series(["A", "B", "C", "Aaba", "Baca", np.nan, "CABA", "dog", "cat"])
@@ -728,15 +728,15 @@ Out[72]:
 dtype: object
 ```
 
-## Merge
+## 合并
 
-### Concat
+### 连接
 
-pandas provides various facilities for easily combining together `Series` and `DataFrame` objects with various kinds of set logic for the indexes and relational algebra functionality in the case of join / merge-type operations.
+pandas 提供了各种工具，用于轻松地将 `Series` 和 `DataFrame` 对象组合在一起，这些对象具有各种索引集逻辑和连接/合并类型操作的关系代数功能。
 
-See the [Merging section](https://pandas.pydata.org/docs/user_guide/merging.html#merging).
+查看[合并部分](https://pandas.pydata.org/docs/user_guide/merging.html#merging)。
 
-Concatenating pandas objects together row-wise with [`concat()`](https://pandas.pydata.org/docs/reference/api/pandas.concat.html#pandas.concat):
+使用 [`concat()`](https://pandas.pydata.org/docs/reference/api/pandas.concat.html#pandas.concat) 将 pandas 对象按行连接在一起：
 
 ```python
 In [73]: df = pd.DataFrame(np.random.randn(10, 4))
@@ -755,7 +755,7 @@ Out[74]:
 8 -0.575247  0.254161 -1.143704  0.215897
 9  1.193555 -0.077118 -0.408530 -0.862495
 
-# break it into pieces
+# 将其拆分成多个部分
 In [75]: pieces = [df[:3], df[3:7], df[7:]]
 
 In [76]: pd.concat(pieces)
@@ -773,11 +773,11 @@ Out[76]:
 9  1.193555 -0.077118 -0.408530 -0.862495
 ```
 
-> Adding a column to a `DataFrame` is relatively fast. However, adding a row requires a copy, and may be expensive. We recommend passing a pre-built list of records to the `DataFrame` constructor instead of building a `DataFrame` by iteratively appending records to it.
+> 向 `DataFrame` 添加一列相对较快。然而，添加一行需要复制数据，可能会很耗时。我们建议将预构建的记录列表传递给 `DataFrame` 构造函数，而不是通过迭代向 `DataFrame` 添加记录来构建它。
 
-### Join
+### 连接
 
-[`merge()`](https://pandas.pydata.org/docs/reference/api/pandas.merge.html#pandas.merge) enables SQL style join types along specific columns. See the [Database style joining](https://pandas.pydata.org/docs/user_guide/merging.html#merging-join) section.
+[`merge()`](https://pandas.pydata.org/docs/reference/api/pandas.merge.html#pandas.merge) 允许在特定列上执行 SQL 风格的连接类型。查看[数据库风格连接](https://pandas.pydata.org/docs/user_guide/merging.html#merging-join)部分。
 
 ```python
 In [77]: left = pd.DataFrame({"key": ["foo", "foo"], "lval": [1, 2]})
@@ -805,7 +805,7 @@ Out[81]:
 3  foo     2     5
 ```
 
-`merge()` on unique keys:
+基于唯一键的 `merge()`：
 
 ```python
 In [82]: left = pd.DataFrame({"key": ["foo", "bar"], "lval": [1, 2]})
@@ -831,17 +831,17 @@ Out[86]:
 1  bar     2     5
 ```
 
-## Grouping
+## 分组
 
-By “group by” we are referring to a process involving one or more of the following steps:
+通过“分组”（group by）我们指的是一个包含以下一个或多个步骤的过程：
 
-* **Splitting** the data into groups based on some criteria
+* **分割**：基于某些标准将数据分割成组
 
-* **Applying** a function to each group independently
+* **应用**：对每个组独立地应用一个函数
 
-* **Combining** the results into a data structure
+* **合并**：将结果合并到一个数据结构中
 
-See the [Grouping section](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby).
+请参阅[分组部分](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby)。
 
 ```python
 In [87]: df = pd.DataFrame(
@@ -867,7 +867,7 @@ Out[88]:
 7  foo  three  0.024580 -0.264610
 ```
 
-Grouping by a column label, selecting column labels, and then applying the [`DataFrameGroupBy.sum()`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.sum.html#pandas.core.groupby.DataFrameGroupBy.sum) function to the resulting groups:
+按照列标签进行分组，选择列标签，然后对结果组应用[`DataFrameGroupBy.sum()`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.sum.html#pandas.core.groupby.DataFrameGroupBy.sum)函数：
 
 ```python
 In [89]: df.groupby("A")[["C", "D"]].sum()
@@ -878,7 +878,7 @@ bar  1.732707  1.073134
 foo  2.824590 -0.574779
 ```
 
-Grouping by multiple columns label forms [`MultiIndex`](https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex).
+按照多个列标签进行分组会生成[`MultiIndex`](https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex)。
 
 ```python
 In [90]: df.groupby(["A", "B"]).sum()
@@ -893,11 +893,11 @@ foo one    1.614581 -1.658537
     two    1.185429  1.348368
 ```
 
-## Reshaping
+## 重塑
 
-See the sections on [Hierarchical Indexing](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced-hierarchical) and [Reshaping](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-stacking).
+请参阅关于[层次化索引](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced-hierarchical)和[重塑](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-stacking)的部分。
 
-### Stack
+### 堆叠
 
 ```python
 In [91]: arrays = [
@@ -922,7 +922,7 @@ baz   one    -0.339355  0.593616
       two     0.884345  1.591431
 ```
 
-The [`stack()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.stack.html#pandas.DataFrame.stack) method “compresses” a level in the DataFrame’s columns:
+`stack()` 方法将 DataFrame 的列中的一个层级“压缩”：
 
 ```python
 In [96]: stacked = df2.stack(future_stack=True)
@@ -941,7 +941,7 @@ baz    one     A   -0.339355
 dtype: float64
 ```
 
-With a “stacked” DataFrame or Series (having a [`MultiIndex`](https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex) as the `index`), the inverse operation of [`stack()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.stack.html#pandas.DataFrame.stack) is [`unstack()`], which by default unstacks the **last level**:
+对于“堆叠”的 DataFrame 或 Series（其 `index` 是一个 [`MultiIndex`](https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex)），`stack()` 操作的逆操作是 [`unstack()`]，它默认将**最后一个层级**解堆叠：
 
 ```python
 In [98]: stacked.unstack()
@@ -972,9 +972,9 @@ two    A  0.339969  0.884345
        B -0.693205  1.591431
 ```
 
-### Pivot tables
+### 数据透视表
 
-See the section on [Pivot Tables](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-pivot).
+请参阅关于 [数据透视表](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-pivot) 的部分。
 
 ```python
 In [101]: df = pd.DataFrame(
@@ -1005,7 +1005,7 @@ Out[102]:
 11  three  C  bar  0.166599  1.100230
 ```
 
-[`pivot_table()`](https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html#pandas.pivot_table) pivots a `DataFrame` specifying the `values`, `index` and `columns`
+[`pivot_table()`](https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html#pandas.pivot_table) 方法用于创建一个数据透视表，指定 `values`、`index` 和 `columns` 参数。
 
 ```python
 In [103]: pd.pivot_table(df, values="D", index=["A", "B"], columns=["C"])
@@ -1023,9 +1023,9 @@ two   A       NaN  0.007207
       C       NaN  1.018601
 ```
 
-## Time series
+## 时间序列
 
-pandas has simple, powerful, and efficient functionality for performing resampling operations during frequency conversion (e.g., converting secondly data into 5-minutely data). This is extremely common in, but not limited to, financial applications. See the [Time Series section](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries).
+pandas 提供了简单、强大且高效的功能，用于在频率转换期间执行重采样操作（例如，将秒级数据转换为5分钟级数据）。这在金融应用中极为常见，但并不限于此。请参阅 [时间序列部分](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries)。
 
 ```python
 In [104]: rng = pd.date_range("1/1/2012", periods=100, freq="s")
@@ -1038,7 +1038,7 @@ Out[106]:
 Freq: 5min, dtype: int64
 ```
 
-[`Series.tz_localize()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.tz_localize.html#pandas.Series.tz_localize) localizes a time series to a time zone:
+[`Series.tz_localize()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.tz_localize.html#pandas.Series.tz_localize) 方法将时间序列本地化到特定时区：
 
 ```python
 In [107]: rng = pd.date_range("3/6/2012 00:00", periods=5, freq="D")
@@ -1066,7 +1066,7 @@ Out[111]:
 Freq: D, dtype: float64
 ```
 
-[`Series.tz_convert()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.tz_convert.html#pandas.Series.tz_convert) converts a timezones aware time series to another time zone:
+[`Series.tz_convert()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.tz_convert.html#pandas.Series.tz_convert) 方法将具有时区感知的时间序列转换为另一个时区：
 
 ```python
 In [112]: ts_utc.tz_convert("US/Eastern")
@@ -1079,7 +1079,7 @@ Out[112]:
 Freq: D, dtype: float64
 ```
 
-Adding a non-fixed duration ([`BusinessDay`](https://pandas.pydata.org/docs/reference/api/pandas.tseries.offsets.BusinessDay.html#pandas.tseries.offsets.BusinessDay)) to a time series:
+将非固定时长（如 [`BusinessDay`](https://pandas.pydata.org/docs/reference/api/pandas.tseries.offsets.BusinessDay.html#pandas.tseries.offsets.BusinessDay)）添加到时间序列中：
 
 ```python
 In [113]: rng
@@ -1095,9 +1095,9 @@ DatetimeIndex(['2012-03-13', '2012-03-14', '2012-03-15', '2012-03-16',
               dtype='datetime64[ns]', freq=None)
 ```
 
-## Categoricals
+## 分类数据
 
-pandas can include categorical data in a `DataFrame`. For full docs, see the [categorical introduction](https://pandas.pydata.org/docs/user_guide/categorical.html#categorical) and the [API documentation](https://pandas.pydata.org/docs/reference/arrays.html#api-arrays-categorical).
+pandas 可以在 `DataFrame` 中包含分类数据。完整的文档请参见 [分类数据介绍](https://pandas.pydata.org/docs/user_guide/categorical.html#categorical) 和 [API 文档](https://pandas.pydata.org/docs/reference/arrays.html#api-arrays-categorical)。
 
 ```python
 In [115]: df = pd.DataFrame(
@@ -1106,7 +1106,7 @@ In [115]: df = pd.DataFrame(
    .....: 
 ```
 
-Converting the raw grades to a categorical data type:
+将原始成绩转换为分类数据类型：
 
 ```python
 In [116]: df["grade"] = df["raw_grade"].astype("category")
@@ -1123,7 +1123,7 @@ Name: grade, dtype: category
 Categories (3, object): ['a', 'b', 'e']
 ```
 
-Rename the categories to more meaningful names:
+将分类类别重命名为更有意义的名称：
 
 ```python
 In [118]: new_categories = ["very good", "good", "very bad"]
@@ -1131,7 +1131,7 @@ In [118]: new_categories = ["very good", "good", "very bad"]
 In [119]: df["grade"] = df["grade"].cat.rename_categories(new_categories)
 ```
 
-Reorder the categories and simultaneously add the missing categories (methods under [`Series.cat()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.cat.html#pandas.Series.cat) return a new `Series` by default):
+重新排序分类并同时添加缺失的分类（默认情况下，`Series.cat()` 下的方法会返回一个新的 `Series`）：
 
 ```python
 In [120]: df["grade"] = df["grade"].cat.set_categories(
@@ -1151,7 +1151,7 @@ Name: grade, dtype: category
 Categories (5, object): ['very bad', 'bad', 'medium', 'good', 'very good']
 ```
 
-Sorting is per order in the categories, not lexical order:
+排序是根据分类中的顺序进行的，而不是字典顺序：
 
 ```python
 In [122]: df.sort_values(by="grade")
@@ -1165,7 +1165,7 @@ Out[122]:
 4   5         a  very good
 ```
 
-Grouping by a categorical column with `observed=False` also shows empty categories:
+使用 `observed=False` 对分类列进行分组时，也会显示空的分类：
 
 ```python
 In [123]: df.groupby("grade", observed=False).size()
@@ -1179,11 +1179,11 @@ very good    3
 dtype: int64
 ```
 
-## Plotting
+## 绘图
 
-See the [Plotting](https://pandas.pydata.org/docs/user_guide/visualization.html#visualization) docs.
+请参阅 [绘图](https://pandas.pydata.org/docs/user_guide/visualization.html#visualization) 文档。
 
-We use the standard convention for referencing the matplotlib API:
+我们使用标准的约定来引用 matplotlib API：
 
 ```python
 In [124]: import matplotlib.pyplot as plt
@@ -1191,7 +1191,7 @@ In [124]: import matplotlib.pyplot as plt
 In [125]: plt.close("all")
 ```
 
-The `plt.close` method is used to [close](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.close.html) a figure window:
+`plt.close` 方法用于 [关闭](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.close.html) 图形窗口：
 
 ```python
 In [126]: ts = pd.Series(np.random.randn(1000), index=pd.date_range("1/1/2000", periods=1000))
@@ -1203,9 +1203,9 @@ In [128]: ts.plot();
 
 ![](https://pandas.pydata.org/docs/_images/series_plot_basic.png)
 
-> When using Jupyter, the plot will appear using [`plot()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.html#pandas.Series.plot). Otherwise use [matplotlib.pyplot.show](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html) to show it or [matplotlib.pyplot.savefig](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html) to write it to a file.
+> 当使用 Jupyter 时，图形将通过调用 [`plot()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.plot.html#pandas.Series.plot) 显示。否则，使用 [matplotlib.pyplot.show](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html) 来显示图形，或使用 [matplotlib.pyplot.savefig](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html) 将其写入文件。
 
-`plot()` plots all columns:
+`plot()` 方法会绘制所有列：
 
 ```python
 In [129]: df = pd.DataFrame(
@@ -1224,13 +1224,13 @@ In [133]: plt.legend(loc='best');
 
 ![](https://pandas.pydata.org/docs/_images/frame_plot_basic.png)
 
-## Importing and exporting data
+## 导入和导出数据
 
-See the [IO Tools](https://pandas.pydata.org/docs/user_guide/io.html#io) section.
+请参阅[IO Tools](https://pandas.pydata.org/docs/user_guide/io.html#io)部分。
 
 ### CSV
 
-[Writing to a csv file:](https://pandas.pydata.org/docs/user_guide/io.html#io-store-in-csv) using [`DataFrame.to_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html#pandas.DataFrame.to_csv)
+[写入CSV文件：](https://pandas.pydata.org/docs/user_guide/io.html#io-store-in-csv) 使用[`DataFrame.to_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html#pandas.DataFrame.to_csv)
 
 ```python
 In [134]: df = pd.DataFrame(np.random.randint(0, 5, (10, 5)))
@@ -1238,7 +1238,7 @@ In [134]: df = pd.DataFrame(np.random.randint(0, 5, (10, 5)))
 In [135]: df.to_csv("foo.csv")
 ```
 
-[Reading from a csv file:](https://pandas.pydata.org/docs/user_guide/io.html#io-read-csv-table) using [`read_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv)
+[从CSV文件读取：](https://pandas.pydata.org/docs/user_guide/io.html#io-read-csv-table) 使用[`read_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv)
 
 ```python
 In [136]: pd.read_csv("foo.csv")
@@ -1258,13 +1258,13 @@ Out[136]:
 
 ### Parquet
 
-Writing to a Parquet file:
+写入Parquet文件：
 
 ```python
 In [137]: df.to_parquet("foo.parquet")
 ```
 
-Reading from a Parquet file Store using [`read_parquet()`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html#pandas.read_parquet):
+从Parquet文件存储中读取，使用[`read_parquet()`](https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html#pandas.read_parquet)：
 
 ```python
 In [138]: pd.read_parquet("foo.parquet")
@@ -1284,15 +1284,15 @@ Out[138]:
 
 ### Excel
 
-Reading and writing to [Excel](https://pandas.pydata.org/docs/user_guide/io.html#io-excel).
+从[Excel](https://pandas.pydata.org/docs/user_guide/io.html#io-excel)读取和写入。
 
-Writing to an excel file using [`DataFrame.to_excel()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html#pandas.DataFrame.to_excel):
+使用[`DataFrame.to_excel()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html#pandas.DataFrame.to_excel)写入Excel文件：
 
 ```python
 In [139]: df.to_excel("foo.xlsx", sheet_name="Sheet1")
 ```
 
-Reading from an excel file using [`read_excel()`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html#pandas.read_excel):
+使用[`read_excel()`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html#pandas.read_excel)从Excel文件读取：
 
 ```python
 In [140]: pd.read_excel("foo.xlsx", "Sheet1", index_col=None, na_values=["NA"])
@@ -1310,9 +1310,9 @@ Out[140]:
 9           9  0  4  3  0  3
 ```
 
-## Gotchas
+## 陷阱
 
-If you are attempting to perform a boolean operation on a `Series` or `DataFrame` you might see an exception like:
+如果你试图在`Series`或`DataFrame`上执行布尔操作，你可能会看到类似这样的异常：
 
 ```python
 In [141]: if pd.Series([False, True, False]):
@@ -1335,4 +1335,4 @@ ValueError                                Traceback (most recent call last)
 ValueError: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
 ```
 
-See [Comparisons](https://pandas.pydata.org/docs/user_guide/basics.html#basics-compare) and [Gotchas](https://pandas.pydata.org/docs/user_guide/gotchas.html#gotchas) for an explanation and what to do.
+请查看[比较](https://pandas.pydata.org/docs/user_guide/basics.html#basics-compare)和[陷阱](https://pandas.pydata.org/docs/user_guide/gotchas.html#gotchas)部分以获取解释和应对方法。

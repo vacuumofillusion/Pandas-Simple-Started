@@ -725,3 +725,597 @@ plt.show()                                      # 显示图表
 - 由pandas创建的任何图表都是Matplotlib对象。
 
 > pandas中的绘图功能的完整概述可以在[可视化页面](https://pandas.pydata.org/docs/user_guide/visualization.html#visualization)中找到。
+
+# 5.如何从现有列创建新列
+
+> 本教程中，我们将使用[OpenAQ](https://openaq.org/)提供的关于`NO2`的空气质量数据，并使用[py-openaq](http://dhhagan.github.io/py-openaq/index.html)包。`air_quality_no2.csv`数据集提供了在巴黎的FR04014、安特卫普的BETR801和伦敦的Westminster测量站点的`NO2`值。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: air_quality = pd.read_csv("data/air_quality_no2.csv", index_col=0, parse_dates=True)
+
+In [3]: air_quality.head()
+Out[3]: 
+                     station_antwerp  station_paris  station_london
+datetime                                                           
+2019-05-07 02:00:00              NaN            NaN            23.0
+2019-05-07 03:00:00             50.5           25.0            19.0
+2019-05-07 04:00:00             45.0           27.7            19.0
+2019-05-07 05:00:00              NaN           50.4            16.0
+2019-05-07 06:00:00              NaN           61.9             NaN
+```
+
+![](https://pandas.pydata.org/docs/_images/05_newcolumn_1.svg)
+
+*我想把伦敦站点的`NO2`浓度转换为mg/m³。*
+
+（如果我们假设温度为25摄氏度，压力为1013百帕，转换因子是1.882）
+
+```python
+In [4]: air_quality["london_mg_per_cubic"] = air_quality["station_london"] * 1.882
+
+In [5]: air_quality.head()
+Out[5]: 
+                     station_antwerp  ...  london_mg_per_cubic
+datetime                              ...                     
+2019-05-07 02:00:00              NaN  ...               43.286
+2019-05-07 03:00:00             50.5  ...               35.758
+2019-05-07 04:00:00             45.0  ...               35.758
+2019-05-07 05:00:00              NaN  ...               30.112
+2019-05-07 06:00:00              NaN  ...                  NaN
+
+[5 rows x 4 columns]
+```
+
+要创建一个新列，请在赋值语句的左侧使用带有新列名的`[]`括号。
+
+> 值的计算是**逐元素**进行的。这意味着给定列中的所有值都会一次性乘以值1.882。你不需要使用循环来迭代每一行！
+
+![](https://pandas.pydata.org/docs/_images/05_newcolumn_2.svg)
+
+*我想检查巴黎与安特卫普的值之间的比率，并将结果保存在一个新列中。*
+
+```python
+In [6]: air_quality["ratio_paris_antwerp"] = (
+   ...:     air_quality["station_paris"] / air_quality["station_antwerp"]
+   ...: )
+   ...: 
+
+In [7]: air_quality.head()
+Out[7]: 
+                     station_antwerp  ...  ratio_paris_antwerp
+datetime                              ...                     
+2019-05-07 02:00:00              NaN  ...                  NaN
+2019-05-07 03:00:00             50.5  ...             0.495050
+2019-05-07 04:00:00             45.0  ...             0.615556
+2019-05-07 05:00:00              NaN  ...                  NaN
+2019-05-07 06:00:00              NaN  ...                  NaN
+
+[5 rows x 5 columns]
+```
+
+计算同样是逐元素进行的，所以`/`运算符应用于每一行的值。
+
+其他数学运算符（`+`，`-`，`*`，`/`，...）或逻辑运算符（`<`，`>`，`==`，...）也是逐元素工作的。后者已经在[子集数据教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)中被用来使用条件表达式过滤表格的行。
+
+如果你需要更复杂的逻辑，你可以通过[`apply()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html#pandas.DataFrame.apply)使用任意的Python代码。
+
+*我想将数据列重命名为[OpenAQ](https://openaq.org/)使用的相应站点标识符。*
+
+```python
+In [8]: air_quality_renamed = air_quality.rename(
+   ...:     columns={
+   ...:         "station_antwerp": "BETR801",
+   ...:         "station_paris": "FR04014",
+   ...:         "station_london": "London Westminster",
+   ...:     }
+   ...: )
+   ...: 
+```
+
+```python
+In [9]: air_quality_renamed.head()
+Out[9]: 
+                     BETR801  FR04014  ...  london_mg_per_cubic  ratio_paris_antwerp
+datetime                               ...                                          
+2019-05-07 02:00:00      NaN      NaN  ...               43.286                  NaN
+2019-05-07 03:00:00     50.5     25.0  ...               35.758             0.495050
+2019-05-07 04:00:00     45.0     27.7  ...               35.758             0.615556
+2019-05-07 05:00:00      NaN     50.4  ...               30.112                  NaN
+2019-05-07 06:00:00      NaN     61.9  ...                  NaN                  NaN
+
+[5 rows x 5 columns]
+```
+
+[`rename()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.rename.html#pandas.DataFrame.rename)函数可以用于行标签和列标签的重命名。提供一个字典，其中键是当前的名称，值是新的名称，以更新相应的名称。
+
+映射不应仅限于固定名称，它也可以是一个映射函数。例如，将列名转换为小写字母也可以使用一个函数来实现：
+
+```python
+In [10]: air_quality_renamed = air_quality_renamed.rename(columns=str.lower)
+
+In [11]: air_quality_renamed.head()
+Out[11]: 
+                     betr801  fr04014  ...  london_mg_per_cubic  ratio_paris_antwerp
+datetime                               ...                                          
+2019-05-07 02:00:00      NaN      NaN  ...               43.286                  NaN
+2019-05-07 03:00:00     50.5     25.0  ...               35.758             0.495050
+2019-05-07 04:00:00     45.0     27.7  ...               35.758             0.615556
+2019-05-07 05:00:00      NaN     50.4  ...               30.112                  NaN
+2019-05-07 06:00:00      NaN     61.9  ...                  NaN                  NaN
+
+[5 行 x 5 列]
+```
+
+> 关于列或行标签重命名的详细信息在用户指南中关于[重命名标签](https://pandas.pydata.org/docs/user_guide/basics.html#basics-rename)的部分有提供。
+
+**记住**
+- 通过在`[]`中指定新的列名，并将输出分配给DataFrame来创建新列。
+- 操作是逐元素的，无需遍历行。
+- 使用带有字典或函数的`rename`来重命名行标签或列名。
+
+> 用户指南中包含了关于[列的添加和删除](https://pandas.pydata.org/docs/user_guide/dsintro.html#basics-dataframe-sel-add-del)的单独部分。
+
+# 6. 如何计算汇总统计量
+
+> 本教程使用存储在CSV文件中的泰坦尼克号数据集。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: titanic = pd.read_csv("data/titanic.csv")
+
+In [3]: titanic.head()
+Out[3]: 
+   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+0            1         0       3  ...   7.2500   NaN         S
+1            2         1       1  ...  71.2833   C85         C
+2            3         1       3  ...   7.9250   NaN         S
+3            4         1       1  ...  53.1000  C123         S
+4            5         0       3  ...   8.0500   NaN         S
+
+[5 rows x 12 columns]
+```
+
+## 聚合统计量
+
+![](https://pandas.pydata.org/docs/_images/06_aggregate.svg)
+
+*泰坦尼克号乘客的平均年龄是多少？*
+
+```python
+In [4]: titanic["Age"].mean()
+Out[4]: 29.69911764705882
+```
+
+可以使用不同的统计量，并且它们可以应用于包含数值数据的列。这些操作通常会排除缺失的数据，并且默认情况下会跨行进行操作。
+
+![](https://pandas.pydata.org/docs/_images/06_reduction.svg)
+
+*泰坦尼克号乘客的中位年龄和船票票价是多少？*
+
+```python
+In [5]: titanic[["Age", "Fare"]].median()
+Out[5]: 
+Age     28.0000
+Fare    14.4542
+dtype: float64
+```
+
+对一个`DataFrame`中的多列（选择两列会返回一个`DataFrame`，请参阅[子集数据教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)）应用的统计量，会为每个数值列进行计算。
+
+聚合统计量可以同时对多列进行计算。还记得[第一个教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html#min-tut-01-tableoriented)中的`describe`函数吗？
+
+```python
+In [6]: titanic[["Age", "Fare"]].describe()
+Out[6]: 
+              Age        Fare
+count  714.000000  891.000000
+mean    29.699118   32.204208
+std     14.526497   49.693429
+min      0.420000    0.000000
+25%     20.125000    7.910400
+50%     28.000000   14.454200
+75%     38.000000   31.000000
+max     80.000000  512.329200
+```
+
+除了预定义的统计量，还可以使用[`DataFrame.agg()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.agg.html#pandas.DataFrame.agg)方法为给定列定义聚合统计量的特定组合：
+
+```python
+In [7]: titanic.agg(
+   ...:     {
+   ...:         "Age": ["min", "max", "median", "skew"],
+   ...:         "Fare": ["min", "max", "median", "mean"],
+   ...:     }
+   ...: )
+   ...: 
+Out[7]: 
+              Age        Fare
+min      0.420000    0.000000
+max     80.000000  512.329200
+median  28.000000   14.454200
+skew     0.389108         NaN
+mean          NaN   32.204208
+```
+
+> 描述性统计的详细信息在[用户指南](https://pandas.pydata.org/docs/user_guide/basics.html#basics-stats)的[描述性统计](https://pandas.pydata.org/docs/user_guide/basics.html#basics-stats)部分中提供。
+
+## 按类别分组统计聚合数据
+
+![](https://pandas.pydata.org/docs/_images/06_groupby.svg)
+
+*“泰坦尼克号”上的男性和女性乘客的平均年龄分别是多少？*
+
+```python
+In [8]: titanic[["Sex", "Age"]].groupby("Sex").mean()
+Out[8]: 
+              Age
+Sex              
+female  27.915709
+male    30.726645
+```
+
+由于我们感兴趣的是每个性别的平均年龄，因此首先选择这两列数据：`titanic[["Sex", "Age"]`。接下来，对性别列应用[`groupby()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html#pandas.DataFrame.groupby)方法，以每个类别为一组。然后计算并返回每个性别的平均年龄。
+
+对某一列中的每个类别（例如“性别”列中的男性和女性）计算给定统计量（如平均年龄）是一个常见的模式。`groupby`方法用于支持此类操作。这符合更一般的“分割-应用-组合”模式：
+
+- **分割**：将数据分割成组
+- **应用**：对每个组独立地应用函数
+- **组合**：将结果组合成数据结构
+
+在pandas中，应用和组合步骤通常是一起完成的。
+
+在前面的示例中，我们明确选择了2列。如果没有，`mean`方法将通过传递`numeric_only=True`应用于包含数值列的每一列：
+
+```python
+In [9]: titanic.groupby("Sex").mean(numeric_only=True)
+Out[9]: 
+        PassengerId  Survived    Pclass  ...     SibSp     Parch       Fare
+Sex                                      ...                               
+female   431.028662  0.742038  2.159236  ...  0.694268  0.649682  44.479818
+male     454.147314  0.188908  2.389948  ...  0.429809  0.235702  25.523893
+
+[2 rows x 7 columns]
+```
+
+计算`Pclass`的平均值并没有多大意义。如果我们只对每个性别的平均年龄感兴趣，那么在分组数据上也支持列的选择（使用常规的矩形括号`[]`）：
+
+```python
+In [10]: titanic.groupby("Sex")["Age"].mean()
+Out[10]: 
+Sex
+female    27.915709
+male      30.726645
+Name: Age, dtype: float64
+```
+
+![](https://pandas.pydata.org/docs/_images/06_groupby_select_detail.svg)
+
+>`Pclass`列包含数值数据，但实际上代表了三个类别（或因子），分别用标签‘1’、‘2’和‘3’表示。对这些类别计算统计量并没有多大意义。因此，pandas 提供了一个 `Categorical` 数据类型来处理这种类型的数据。用户指南中的 [Categorical data](https://pandas.pydata.org/docs/user_guide/categorical.html#categorical) 部分提供了更多信息。
+
+*对于每种性别和船舱等级的组合，平均船票价格是多少？*
+
+```python
+In [11]: titanic.groupby(["Sex", "Pclass"])["Fare"].mean()
+Out[11]: 
+Sex     Pclass
+female  1         106.125798
+        2          21.970121
+        3          16.118810
+male    1          67.226127
+        2          19.741782
+        3          12.661633
+Name: Fare, dtype: float64
+```
+
+分组可以同时基于多个列进行。将列名作为列表提供给 [`groupby()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html#pandas.DataFrame.groupby) 方法即可。
+
+> 用户指南中的 [groupby operations](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby) 部分提供了关于 split-apply-combine 方法的完整描述。
+
+## 按类别统计记录数量
+
+![](https://pandas.pydata.org/docs/_images/06_valuecounts.svg)
+
+*每个船舱等级中有多少乘客？*
+
+```python
+In [12]: titanic["Pclass"].value_counts()
+Out[12]: 
+Pclass
+3    491
+1    216
+2    184
+Name: count, dtype: int64
+```
+
+[`value_counts()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.value_counts.html#pandas.Series.value_counts) 方法统计列中每个类别的记录数量。
+
+这个方法其实是一个快捷方式，因为它实际上是一个结合每个组内的记录数量统计的分组操作：
+
+```python
+In [13]: titanic.groupby("Pclass")["Pclass"].count()
+Out[13]: 
+Pclass
+1    216
+2    184
+3    491
+Name: Pclass, dtype: int64
+```
+
+> 在 `groupby` 操作中，可以使用 `size` 和 `count` 方法。`size` 包括 `NaN` 值，只是提供了行数（表的大小），而 `count` 则排除缺失值。在 `value_counts` 方法中，使用 `dropna` 参数来包含或排除 `NaN` 值。
+
+> 用户指南中有一个专门关于 `value_counts` 的部分，请查看 [离散化](https://pandas.pydata.org/docs/user_guide/basics.html#basics-discretization) 页面。
+
+**记住**
+- 可以在整个列或行上计算聚合统计量。
+- `groupby` 提供了 split-apply-combine 模式的强大功能。
+- `value_counts` 是一个方便的快捷方式，用于统计变量每个类别的条目数量。
+
+> 用户指南中关于 [groupby 操作](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby) 的页面提供了 split-apply-combine 方法的完整描述。
+
+# 如何重塑表格的布局
+
+> 本教程使用泰坦尼克号数据集，存储为CSV格式。
+
+> （注意：这里似乎有一个小错误，原文“his tutorial”应为“This tutorial”。）本教程使用OpenAQ提供的关于`NO2`和小于2.5微米的颗粒物（Particulate matter）的空气质量数据，并使用py-openaq包进行处理。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: titanic = pd.read_csv("data/titanic.csv")
+
+In [3]: titanic.head()
+Out[3]: 
+   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+0            1         0       3  ...   7.2500   NaN         S
+1            2         1       1  ...  71.2833   C85         C
+2            3         1       3  ...   7.9250   NaN         S
+3            4         1       1  ...  53.1000  C123         S
+4            5         0       3  ...   8.0500   NaN         S
+
+[5 rows x 12 columns]
+
+In [4]: air_quality = pd.read_csv(
+   ...:     "data/air_quality_long.csv", index_col="date.utc", parse_dates=True
+   ...: )
+   ...: 
+
+In [5]: air_quality.head()
+Out[5]: 
+                                city country location parameter  value   unit
+date.utc                                                                     
+2019-06-18 06:00:00+00:00  Antwerpen      BE  BETR801      pm25   18.0  µg/m³
+2019-06-17 08:00:00+00:00  Antwerpen      BE  BETR801      pm25    6.5  µg/m³
+2019-06-17 07:00:00+00:00  Antwerpen      BE  BETR801      pm25   18.5  µg/m³
+2019-06-17 06:00:00+00:00  Antwerpen      BE  BETR801      pm25   16.0  µg/m³
+2019-06-17 05:00:00+00:00  Antwerpen      BE  BETR801      pm25    7.5  µg/m³
+```
+
+## 对表格行进行排序
+
+*我想根据乘客的年龄对泰坦尼克号的数据进行排序。*
+
+```python
+In [6]: titanic.sort_values(by="Age").head()
+Out[6]: 
+     PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+803          804         1       3  ...   8.5167   NaN         C
+755          756         1       2  ...  14.5000   NaN         S
+644          645         1       3  ...  19.2583   NaN         C
+469          470         1       3  ...  19.2583   NaN         C
+78            79         1       2  ...  29.0000   NaN         S
+
+[5 rows x 12 columns]
+```
+
+*我想根据船舱等级和年龄对泰坦尼克号的数据进行降序排序。*
+
+```python
+In [7]: titanic.sort_values(by=['Pclass', 'Age'], ascending=False).head()
+Out[7]: 
+     PassengerId  Survived  Pclass  ...    Fare Cabin  Embarked
+851          852         0       3  ...  7.7750   NaN         S
+116          117         0       3  ...  7.7500   NaN         Q
+280          281         0       3  ...  7.7500   NaN         Q
+483          484         1       3  ...  9.5875   NaN         S
+326          327         0       3  ...  6.2375   NaN         S
+
+[5 rows x 12 columns]
+```
+
+使用[`DataFrame.sort_values()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html#pandas.DataFrame.sort_values)，表格中的行会根据定义的列进行排序。索引将跟随行的顺序。
+
+> 关于表格排序的更多详细信息，请参考用户指南中的[数据排序](https://pandas.pydata.org/docs/user_guide/basics.html#basics-sorting)部分。
+
+## 长表转宽表格式
+
+让我们使用空气质量数据集的一个小子集。我们专注于`NO2`数据，并且仅使用每个位置的前两个测量值（即每个组的头部）。这个子集数据将被称为`no2_subset`。
+
+```python
+# 仅筛选NO2数据
+In [8]: no2 = air_quality[air_quality["parameter"] == "no2"]
+```
+
+```python
+# 对于每个位置（groupby），使用两个测量值（头部）
+In [9]: no2_subset = no2.sort_index().groupby(["location"]).head(2)
+
+In [10]: no2_subset
+Out[10]: 
+                                city country  ... value   unit
+date.utc                                      ...             
+2019-04-09 01:00:00+00:00  Antwerpen      BE  ...  22.5  µg/m³
+2019-04-09 01:00:00+00:00      Paris      FR  ...  24.4  µg/m³
+2019-04-09 02:00:00+00:00     London      GB  ...  67.0  µg/m³
+2019-04-09 02:00:00+00:00  Antwerpen      BE  ...  53.5  µg/m³
+2019-04-09 02:00:00+00:00      Paris      FR  ...  27.4  µg/m³
+2019-04-09 03:00:00+00:00     London      GB  ...  67.0  µg/m³
+
+[6 rows x 6 columns]
+```
+
+![](https://pandas.pydata.org/docs/_images/07_pivot.svg)
+
+*我希望将三个站点的值作为单独的列并排显示。*
+
+```python
+In [11]: no2_subset.pivot(columns="location", values="value")
+Out[11]: 
+location                   BETR801  FR04014  London Westminster
+date.utc                                                       
+2019-04-09 01:00:00+00:00     22.5     24.4                 NaN
+2019-04-09 02:00:00+00:00     53.5     27.4                67.0
+2019-04-09 03:00:00+00:00      NaN      NaN                67.0
+```
+
+[`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.pivot.html#pandas.pivot) 函数纯粹是对数据的重新整形：它需要每个索引/列组合只有一个值。
+
+由于 pandas 直接支持绘制多个列（参见 [绘图教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html#min-tut-04-plotting)），从长表格式转换为宽表格式使得能够同时绘制不同的时间序列：
+
+```python
+In [12]: no2.head()
+Out[12]: 
+                            city country location parameter  value   unit
+date.utc                                                                 
+2019-06-21 00:00:00+00:00  Paris      FR  FR04014       no2   20.0  µg/m³
+2019-06-20 23:00:00+00:00  Paris      FR  FR04014       no2   21.8  µg/m³
+2019-06-20 22:00:00+00:00  Paris      FR  FR04014       no2   26.5  µg/m³
+2019-06-20 21:00:00+00:00  Paris      FR  FR04014       no2   24.9  µg/m³
+2019-06-20 20:00:00+00:00  Paris      FR  FR04014       no2   21.4  µg/m³
+```
+
+```python
+In [13]: no2.pivot(columns="location", values="value").plot()
+Out[13]: <Axes: xlabel='date.utc'>
+```
+
+![](https://pandas.pydata.org/docs/_images/7_reshape_columns.png)
+
+> 如果未定义 `index` 参数，则使用现有的索引（行标签）。
+
+> 关于 [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot.html#pandas.DataFrame.pivot) 的更多信息，请参阅用户指南中关于 [DataFrame 对象的透视](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-reshaping) 的部分。
+
+![](https://pandas.pydata.org/docs/_images/07_pivot_table.svg)
+
+*我希望得到表格中每个站点`NO2`和`PM2.5`的平均浓度。*
+
+```python
+In [14]: air_quality.pivot_table(
+   ....:     values="value", index="location", columns="parameter", aggfunc="mean"
+   ....: )
+   ....: 
+Out[14]: 
+parameter                 no2       pm2.5
+location                                
+BETR801             26.950920  23.169492
+FR04014             29.374284        NaN
+London Westminster  29.740050  13.443568
+```
+
+在`pivot()`函数的情况下，数据只是被重新排列。当需要聚合多个值（在这个特定情况下，是不同时间步上的值）时，可以使用`pivot_table()`函数，并提供一个聚合函数（例如平均值）来组合这些值。
+
+透视表是电子表格软件中广为人知的概念。如果对每个变量的行/列边缘（小计）感兴趣，请将`margins`参数设置为`True`：
+
+```python
+In [15]: air_quality.pivot_table(
+   ....:     values="value",
+   ....:     index="location",
+   ....:     columns="parameter",
+   ....:     aggfunc="mean",
+   ....:     margins=True,
+   ....: )
+   ....: 
+Out[15]: 
+parameter                 no2       pm2.5       All
+location                                           
+BETR801             26.950920  23.169492  24.982353
+FR04014             29.374284        NaN  29.374284
+London Westminster  29.740050  13.443568  21.491708
+All                 29.430316  14.386849  24.222743
+```
+
+> 关于`pivot_table()`函数的更多信息，请参阅用户指南中关于[透视表](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-pivot)的部分。
+
+如果你很好奇，`pivot_table()`确实与`groupby()`直接相关。通过对`parameter`和`location`进行分组，也可以得到相同的结果：
+
+```python
+air_quality.groupby(["parameter", "location"])[["value"]].mean()
+```
+
+## 宽表到长表格式
+
+从上一节创建的宽表格式开始，我们使用[`reset_index()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html#pandas.DataFrame.reset_index)方法给`DataFrame`添加一个新的索引。
+
+```python
+In [16]: no2_pivoted = no2.pivot(columns="location", values="value").reset_index()
+
+In [17]: no2_pivoted.head()
+Out[17]: 
+location                  date.utc  BETR801  FR04014  London Westminster
+0        2019-04-09 01:00:00+00:00     22.5     24.4                 NaN
+1        2019-04-09 02:00:00+00:00     53.5     27.4                67.0
+2        2019-04-09 03:00:00+00:00     54.5     34.2                67.0
+3        2019-04-09 04:00:00+00:00     34.5     48.5                41.0
+4        2019-04-09 05:00:00+00:00     46.5     59.5                41.0
+```
+
+![](https://pandas.pydata.org/docs/_images/07_melt.svg)
+
+*我想将所有的空气质量`NO2`测量值收集到一个单独的列中（长表格式）。*
+
+```python
+In [18]: no_2 = no2_pivoted.melt(id_vars="date.utc")
+
+In [19]: no_2.head()
+Out[19]: 
+                   date.utc location  value
+0 2019-04-09 01:00:00+00:00  BETR801   22.5
+1 2019-04-09 02:00:00+00:00  BETR801   53.5
+2 2019-04-09 03:00:00+00:00  BETR801   54.5
+3 2019-04-09 04:00:00+00:00  BETR801   34.5
+4 2019-04-09 05:00:00+00:00  BETR801   46.5
+```
+
+`DataFrame`上的[`pandas.melt()`](https://pandas.pydata.org/docs/reference/api/pandas.melt.html#pandas.melt)方法将数据表从宽表格式转换为长表格式。列标题成为新创建列中的变量名。
+
+解决方案是`pandas.melt()`的简短版本应用方法。该方法会将没有在`id_vars`中提到的所有列合并成两列：一列包含列标题名，一列包含这些值本身。后一列默认名为`value`。
+
+传递给`pandas.melt()`的参数可以更详细地定义：
+
+```python
+In [20]: no_2 = no2_pivoted.melt(
+   ....:     id_vars="date.utc",
+   ....:     value_vars=["BETR801", "FR04014", "London Westminster"],
+   ....:     value_name="NO_2",
+   ....:     var_name="id_location",
+   ....: )
+   ....: 
+
+In [21]: no_2.head()
+Out[21]: 
+                   date.utc id_location  NO_2
+0 2019-04-09 01:00:00+00:00     BETR801  22.5
+1 2019-04-09 02:00:00+00:00     BETR801  53.5
+2 2019-04-09 03:00:00+00:00     BETR801  54.5
+3 2019-04-09 04:00:00+00:00     BETR801  34.5
+4 2019-04-09 05:00:00+00:00     BETR801  46.5
+```
+
+额外的参数有以下效果：
+
+- `value_vars`定义了哪些列要合并在一起
+- `value_name`为值列提供了一个自定义列名，而不是默认的列名`value`
+- `var_name`为收集列标题名的列提供了一个自定义列名。否则，它会使用索引名或默认的`variable`
+
+因此，`value_name`和`var_name`只是为两个生成的列定义的用户自定义名称。要合并的列由`id_vars`和`value_vars`定义。
+
+> 使用`pandas.melt()`从宽表格式转换为长表格式在用户指南的[通过melt重塑](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping-melt)部分中有解释。
+
+**注意**
+- `sort_values`支持按一列或多列进行排序。
+- `pivot`函数纯粹是数据的重新结构，而`pivot_table`支持聚合操作。
+- `pivot`的反向操作（从长表到宽表）是`melt`（从宽表到长表）。
+
+> 在 Pandas 的用户指南中，关于[重塑和透视](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping)的页面提供了完整的概述。

@@ -1,4 +1,4 @@
-# 1. pandas处理什么样的数据？
+# 1.pandas处理什么样的数据？
 
 *我想开始使用pandas*
 
@@ -8,7 +8,7 @@ In [1]: import pandas as pd
 
 要加载pandas包并开始使用它，需要导入该包。社区公认的pandas别名为`pd`，因此将pandas加载为`pd`是pandas文档中的所有标准做法。
 
-## pandas数据表表示
+## 1.1 pandas数据表表示
 
 ![](https://pandas.pydata.org/docs/_images/01_table_dataframe.svg)
 
@@ -47,7 +47,7 @@ Out[3]:
 
 ![](https://pandas.pydata.org/docs/_images/01_table_spreadsheet.png)
 
-## `DataFrame` 中的每一列都是一个 `Series`
+## 1.2 `DataFrame` 中的每一列都是一个 `Series`
 
 ![](https://pandas.pydata.org/docs/_images/01_table_series.svg)
 
@@ -81,7 +81,7 @@ Name: Age, dtype: int64
 
 pandas的`Series`没有列标签，因为它只是`DataFrame`的一个单列。但是，`Series`有行标签。
 
-## 对DataFrame或Series进行操作
+## 1.3 对DataFrame或Series进行操作
 
 *我想知道乘客的最大年龄*
 
@@ -314,7 +314,7 @@ Out[3]:
 [5 rows x 12 columns]
 ```
 
-## 我如何从`DataFrame`中选择特定的列？
+## 3.1 我如何从`DataFrame`中选择特定的列？
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_columns.svg)
 
@@ -384,7 +384,7 @@ Out[11]: (891, 2)
 
 > 关于索引的基本信息，请参阅用户指南中关于[索引和选择数据](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-basics)的部分。
 
-## 我如何从DataFrame中过滤特定的行？
+## 3.2 我如何从DataFrame中过滤特定的行？
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_rows.svg)
 
@@ -503,7 +503,7 @@ Out[22]: (714, 12)
 
 对于缺失值的更多专用函数，请参阅用户指南中关于[处理缺失数据](https://pandas.pydata.org/docs/user_guide/missing_data.html#missing-data)的部分。
 
-## 如何从DataFrame中选择特定的行和列？
+## 3.3 如何从DataFrame中选择特定的行和列？
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_columns_rows.svg)
 
@@ -857,7 +857,7 @@ datetime                               ...
 
 > 用户指南中包含了关于[列的添加和删除](https://pandas.pydata.org/docs/user_guide/dsintro.html#basics-dataframe-sel-add-del)的单独部分。
 
-# 6. 如何计算汇总统计量
+# 6.如何计算汇总统计量
 
 > 本教程使用存储在CSV文件中的泰坦尼克号数据集。
 
@@ -878,7 +878,7 @@ Out[3]:
 [5 rows x 12 columns]
 ```
 
-## 聚合统计量
+## 6.1 聚合统计量
 
 ![](https://pandas.pydata.org/docs/_images/06_aggregate.svg)
 
@@ -942,7 +942,7 @@ mean          NaN   32.204208
 
 > 描述性统计的详细信息在[用户指南](https://pandas.pydata.org/docs/user_guide/basics.html#basics-stats)的[描述性统计](https://pandas.pydata.org/docs/user_guide/basics.html#basics-stats)部分中提供。
 
-## 按类别分组统计聚合数据
+## 6.2 按类别分组统计聚合数据
 
 ![](https://pandas.pydata.org/docs/_images/06_groupby.svg)
 
@@ -1014,7 +1014,7 @@ Name: Fare, dtype: float64
 
 > 用户指南中的 [groupby operations](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby) 部分提供了关于 split-apply-combine 方法的完整描述。
 
-## 按类别统计记录数量
+## 6.3 按类别统计记录数量
 
 ![](https://pandas.pydata.org/docs/_images/06_valuecounts.svg)
 
@@ -1055,7 +1055,7 @@ Name: Pclass, dtype: int64
 
 > 用户指南中关于 [groupby 操作](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby) 的页面提供了 split-apply-combine 方法的完整描述。
 
-# 如何重塑表格的布局
+# 7.如何重塑表格的布局
 
 > 本教程使用泰坦尼克号数据集，存储为CSV格式。
 
@@ -1093,7 +1093,7 @@ date.utc
 2019-06-17 05:00:00+00:00  Antwerpen      BE  BETR801      pm25    7.5  µg/m³
 ```
 
-## 对表格行进行排序
+## 7.1 对表格行进行排序
 
 *我想根据乘客的年龄对泰坦尼克号的数据进行排序。*
 
@@ -1129,7 +1129,7 @@ Out[7]:
 
 > 关于表格排序的更多详细信息，请参考用户指南中的[数据排序](https://pandas.pydata.org/docs/user_guide/basics.html#basics-sorting)部分。
 
-## 长表转宽表格式
+## 7.2 长表转宽表格式
 
 让我们使用空气质量数据集的一个小子集。我们专注于`NO2`数据，并且仅使用每个位置的前两个测量值（即每个组的头部）。这个子集数据将被称为`no2_subset`。
 
@@ -1244,7 +1244,7 @@ All                 29.430316  14.386849  24.222743
 air_quality.groupby(["parameter", "location"])[["value"]].mean()
 ```
 
-## 宽表到长表格式
+## 7.3 宽表到长表格式
 
 从上一节创建的宽表格式开始，我们使用[`reset_index()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html#pandas.DataFrame.reset_index)方法给`DataFrame`添加一个新的索引。
 
@@ -1319,3 +1319,658 @@ Out[21]:
 - `pivot`的反向操作（从长表到宽表）是`melt`（从宽表到长表）。
 
 > 在 Pandas 的用户指南中，关于[重塑和透视](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping)的页面提供了完整的概述。
+
+# 8.如何合并多个表中的数据
+
+> 在本教程中，使用了OpenAQ提供的关于`NO2`的空气质量数据，并使用py-openaq包进行下载。
+
+> 在本教程中，使用了OpenAQ提供的关于小于2.5微米的颗粒物（Particulate matter less than 2.5 micrometers）的空气质量数据，并使用py-openaq包进行下载。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: air_quality_no2 = pd.read_csv("data/air_quality_no2_long.csv",
+   ...:                               parse_dates=True)
+   ...: 
+
+In [3]: air_quality_no2 = air_quality_no2[["date.utc", "location",
+   ...:                                    "parameter", "value"]]
+   ...: 
+
+In [4]: air_quality_no2.head()
+Out[4]: 
+                    date.utc location parameter  value
+0  2019-06-21 00:00:00+00:00  FR04014       no2   20.0
+1  2019-06-20 23:00:00+00:00  FR04014       no2   21.8
+2  2019-06-20 22:00:00+00:00  FR04014       no2   26.5
+3  2019-06-20 21:00:00+00:00  FR04014       no2   24.9
+4  2019-06-20 20:00:00+00:00  FR04014       no2   21.4
+
+In [5]: air_quality_pm25 = pd.read_csv("data/air_quality_pm25_long.csv",
+   ...:                                parse_dates=True)
+   ...: 
+
+In [6]: air_quality_pm25 = air_quality_pm25[["date.utc", "location",
+   ...:                                      "parameter", "value"]]
+   ...: 
+
+In [7]: air_quality_pm25.head()
+Out[7]: 
+                    date.utc location parameter  value
+0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+## 8.1 连接对象
+
+![](https://pandas.pydata.org/docs/_images/08_concat_row.svg)
+
+*我想将`NO2`和`PM25`的测量值，两个具有相似结构的表格，合并到一个表格中。*
+
+```python
+In [8]: air_quality = pd.concat([air_quality_pm25, air_quality_no2], axis=0)
+
+In [9]: air_quality.head()
+Out[9]: 
+                    date.utc location parameter  value
+0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+[`concat()`](https://pandas.pydata.org/docs/reference/api/pandas.concat.html#pandas.concat)函数沿着一个轴（行或列）执行多个表格的连接操作。
+
+默认情况下，连接是沿着轴0进行的，因此结果表格将输入表格的行合并在一起。让我们检查原始表格和连接后的表格的形状以验证操作：
+
+```python
+In [10]: print('Shape of the ``air_quality_pm25`` table: ', air_quality_pm25.shape)
+Shape of the ``air_quality_pm25`` table:  (1110, 4)
+
+In [11]: print('Shape of the ``air_quality_no2`` table: ', air_quality_no2.shape)
+Shape of the ``air_quality_no2`` table:  (2068, 4)
+
+In [12]: print('Shape of the resulting ``air_quality`` table: ', air_quality.shape)
+Shape of the resulting ``air_quality`` table:  (3178, 4)
+```
+
+因此，结果表格有3178 = 1110 + 2068行。
+
+> **axis**参数将在许多pandas方法中出现，这些方法可以**沿着一个轴**应用。一个`DataFrame`有两个对应的轴：第一个轴沿着行垂直向下（axis 0），第二个轴沿着列水平方向（axis 1）。大多数操作（如连接或汇总统计）默认情况下是跨行（axis 0）进行的，但也可以跨列进行。
+
+根据日期时间信息对表格进行排序也说明了两个表格的合并，其中`parameter`列定义了表格的来源（来自`air_quality_no2`表格的`no2`或来自`air_quality_pm25`表格的`pm25`）：
+
+```python
+In [13]: air_quality = air_quality.sort_values("date.utc")
+
+In [14]: air_quality.head()
+Out[14]: 
+                       date.utc            location parameter  value
+2067  2019-05-07 01:00:00+00:00  London Westminster       no2   23.0
+1003  2019-05-07 01:00:00+00:00             FR04014       no2   25.0
+100   2019-05-07 01:00:00+00:00             BETR801      pm25   12.5
+1098  2019-05-07 01:00:00+00:00             BETR801       no2   50.5
+1109  2019-05-07 01:00:00+00:00  London Westminster      pm25    8.0
+```
+
+在这个特定示例中，数据提供的`parameter`列确保了每个原始表格都可以被识别。但情况并非总是如此。`concat`函数提供了一个方便的解决方案，使用`keys`参数添加额外的（层次化）行索引。例如：
+
+```python
+In [15]: air_quality_ = pd.concat([air_quality_pm25, air_quality_no2], keys=["PM25", "NO2"])
+
+In [16]: air_quality_.head()
+Out[16]: 
+                         date.utc location parameter  value
+PM25 0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+     1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+     2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+     3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+     4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+> 在这些教程中，没有提到同时存在的多个行/列索引。*层次化索引*（Hierarchical indexing）或*MultiIndex*是pandas中一个高级且强大的特性，用于分析更高维度的数据。
+
+> MultiIndex超出了这个pandas入门教程的范围。目前，请记住，`reset_index`函数可以用来将索引的任何级别转换为列，例如`air_quality.reset_index(level=0)`。
+
+> 请随意探索[高级索引](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced)用户指南部分的多索引世界。
+
+> [对象连接](https://pandas.pydata.org/docs/user_guide/merging.html#merging-concat)部分提供了更多关于表格连接（行和列）的选项，以及如何使用`concat`定义其他轴上索引的逻辑（联合或交集）。
+
+## 8.2 使用公共标识符连接表格
+
+![](https://pandas.pydata.org/docs/_images/08_merge_left.svg)
+
+*将站点元数据表提供的站点坐标添加到测量表的相应行中。*
+
+> 空气质量测量站的坐标存储在一个名为`air_quality_stations.csv`的数据文件中，该文件是使用[py-openaq](http://dhhagan.github.io/py-openaq/index.html)包下载的。
+
+```python
+In [17]: stations_coord = pd.read_csv("data/air_quality_stations.csv")
+
+In [18]: stations_coord.head()
+Out[18]: 
+  location  coordinates.latitude  coordinates.longitude
+0  BELAL01              51.23619                4.38522
+1  BELHB23              51.17030                4.34100
+2  BELLD01              51.10998                5.00486
+3  BELLD02              51.12038                5.02155
+4  BELR833              51.32766                4.36226
+```
+
+本示例中使用的站点（FR04014、BETR801和London Westminster）只是元数据表中的三个条目。我们只希望将这三个站点的坐标添加到测量表中，每个都位于`air_quality`表的相应行上。
+
+```python
+In [19]: air_quality.head()
+Out[19]: 
+                       date.utc            location parameter  value
+2067  2019-05-07 01:00:00+00:00  London Westminster       no2   23.0
+1003  2019-05-07 01:00:00+00:00             FR04014       no2   25.0
+100   2019-05-07 01:00:00+00:00             BETR801      pm25   12.5
+1098  2019-05-07 01:00:00+00:00             BETR801       no2   50.5
+1109  2019-05-07 01:00:00+00:00  London Westminster      pm25    8.0
+```
+
+```python
+In [20]: air_quality = pd.merge(air_quality, stations_coord, how="left", on="location")
+
+In [21]: air_quality.head()
+Out[21]: 
+                    date.utc  ... coordinates.longitude
+0  2019-05-07 01:00:00+00:00  ...              -0.13193
+1  2019-05-07 01:00:00+00:00  ...               2.39390
+2  2019-05-07 01:00:00+00:00  ...               2.39390
+3  2019-05-07 01:00:00+00:00  ...               4.43182
+4  2019-05-07 01:00:00+00:00  ...               4.43182
+
+[5 rows x 6 columns]
+```
+
+使用[`merge()`](https://pandas.pydata.org/docs/reference/api/pandas.merge.html#pandas.merge)函数，对于`air_quality`表中的每一行，都从`air_quality_stations_coord`表中添加相应的坐标。两个表都有共同的列`location`，它被用作合并信息的键。通过选择左连接（left join），只有`air_quality`（左表）中可用的位置，即FR04014、BETR801和London Westminster，才会出现在结果表中。`merge`函数支持多种类似于数据库操作的连接选项。
+
+*将参数元数据表中的参数的完整描述和名称添加到测量表中。*
+
+> 空气质量参数元数据存储在一个名为`air_quality_parameters.csv`的数据文件中，该文件是使用[py-openaq](http://dhhagan.github.io/py-openaq/index.html)包下载的。
+
+```python
+In [22]: air_quality_parameters = pd.read_csv("data/air_quality_parameters.csv")
+
+In [23]: air_quality_parameters.head()
+Out[23]: 
+     id                                        description  name
+0    bc                                       Black Carbon    BC
+1    co                                    Carbon Monoxide    CO
+2   no2                                   Nitrogen Dioxide   NO2
+3    o3                                              Ozone    O3
+4  pm10  Particulate matter less than 10 micrometers in...  PM10
+```
+
+```python
+In [24]: air_quality = pd.merge(air_quality, air_quality_parameters,
+   ....:                        how='left', left_on='parameter', right_on='id')
+   ....: 
+
+In [25]: air_quality.head()
+Out[25]: 
+                    date.utc  ...   name
+0  2019-05-07 01:00:00+00:00  ...    NO2
+1  2019-05-07 01:00:00+00:00  ...    NO2
+2  2019-05-07 01:00:00+00:00  ...    NO2
+3  2019-05-07 01:00:00+00:00  ...  PM2.5
+4  2019-05-07 01:00:00+00:00  ...    NO2
+
+[5 rows x 9 columns]
+```
+
+与前面的示例相比，这里没有共同的列名。但是，`air_quality`表中的`parameter`列和`air_quality_parameters_name`表中的`id`列都以共同格式提供了测量变量。在这里，使用了`left_on`和`right_on`参数（而不是仅仅使用`on`）来连接两个表。
+
+> pandas还支持内连接（inner join）、外连接（outer join）和右连接（right join）。关于表的连接/合并的更多信息可以在用户指南的[数据库风格的表合并](https://pandas.pydata.org/docs/user_guide/merging.html#merging-join)部分找到。或者，你可以查看[与SQL的对比](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html#compare-with-sql-join)页面。
+
+**记住**
+- 可以使用`concat`函数按列和按行连接多个表。
+- 对于类似数据库的表的合并/连接，请使用`merge`函数。
+
+> 查阅用户指南以获取关于如何[组合数据表](https://pandas.pydata.org/docs/user_guide/merging.html#merg)的各种设施的完整描述。
+
+# 9.如何轻松处理时间序列数据
+
+> 本教程中，使用了由[OpenAQ](https://openaq.org/)提供的关于`NO2`和2.5微米以下的颗粒物空气质量数据，并使用[py-openaq](http://dhhagan.github.io/py-openaq/index.html)包进行下载。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: import matplotlib.pyplot as plt
+
+In [3]: air_quality = pd.read_csv("data/air_quality_no2_long.csv")
+
+In [4]: air_quality = air_quality.rename(columns={"date.utc": "datetime"})
+
+In [5]: air_quality.head()
+Out[5]: 
+    city country                   datetime location parameter  value   unit
+0  Paris      FR  2019-06-21 00:00:00+00:00  FR04014       no2   20.0  µg/m³
+1  Paris      FR  2019-06-20 23:00:00+00:00  FR04014       no2   21.8  µg/m³
+2  Paris      FR  2019-06-20 22:00:00+00:00  FR04014       no2   26.5  µg/m³
+3  Paris      FR  2019-06-20 21:00:00+00:00  FR04014       no2   24.9  µg/m³
+4  Paris      FR  2019-06-20 20:00:00+00:00  FR04014       no2   21.4  µg/m³
+
+In [6]: air_quality.city.unique()
+Out[6]: array(['Paris', 'Antwerpen', 'London'], dtype=object)
+```
+
+## 9.1 使用pandas的日期时间属性
+
+*我希望将`datetime`列中的日期作为日期时间对象而不是纯文本进行处理*
+
+```python
+In [7]: air_quality["datetime"] = pd.to_datetime(air_quality["datetime"])
+
+In [8]: air_quality["datetime"]
+Out[8]: 
+0      2019-06-21 00:00:00+00:00
+1      2019-06-20 23:00:00+00:00
+2      2019-06-20 22:00:00+00:00
+3      2019-06-20 21:00:00+00:00
+4      2019-06-20 20:00:00+00:00
+                  ...           
+2063   2019-05-07 06:00:00+00:00
+2064   2019-05-07 04:00:00+00:00
+2065   2019-05-07 03:00:00+00:00
+2066   2019-05-07 02:00:00+00:00
+2067   2019-05-07 01:00:00+00:00
+Name: datetime, Length: 2068, dtype: datetime64[ns, UTC]
+```
+
+最初，`datetime`中的值是字符串，并不提供任何日期时间操作（例如提取年份、星期几等）。通过应用`to_datetime`函数，pandas会解释这些字符串并将其转换为日期时间（即`datetime64[ns, UTC]`）对象。在pandas中，我们称这些日期时间对象为[pandas.Timestamp](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp)，类似于标准库中的`datetime.datetime`。
+
+> 由于许多数据集在某一列中包含日期时间信息，pandas的输入函数如[`pandas.read_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv)和[`pandas.read_json()`](https://pandas.pydata.org/docs/reference/api/pandas.read_json.html#pandas.read_json)可以在读取数据时，通过`parse_dates`参数和要读取为Timestamp的列列表，将这些列转换为日期：
+
+```python
+pd.read_csv("../data/air_quality_no2_long.csv", parse_dates=["datetime"])
+```
+
+为什么这些[`pandas.Timestamp`](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp)对象很有用？让我们通过一些示例来说明它们的附加值。
+
+我们正在处理的时间序列数据集的开始和结束日期是什么？
+
+```python
+In [9]: air_quality["datetime"].min(), air_quality["datetime"].max()
+Out[9]: 
+(Timestamp('2019-05-07 01:00:00+0000', tz='UTC'),
+ Timestamp('2019-06-21 00:00:00+0000', tz='UTC'))
+```
+
+使用`pandas.Timestamp`来处理日期时间，使我们能够计算日期信息并使其可比较。因此，我们可以利用这一点来获取时间序列的长度：
+
+```python
+In [10]: air_quality["datetime"].max() - air_quality["datetime"].min()
+Out[10]: Timedelta('44 days 23:00:00')
+```
+
+结果是一个[`pandas.Timedelta`](https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta)对象，类似于Python标准库中的`datetime.timedelta`，用于定义时间间隔。
+
+> pandas支持的各种时间概念在用户指南的[时间相关概念](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-overview)部分中进行了说明。
+
+*我想在`DataFrame`中添加一个新列，仅包含测量的月份*
+
+```python
+In [11]: air_quality["month"] = air_quality["datetime"].dt.month
+
+In [12]: air_quality.head()
+Out[12]: 
+    city country                  datetime  ... value   unit  month
+0  Paris      FR 2019-06-21 00:00:00+00:00  ...  20.0  µg/m³      6
+1  Paris      FR 2019-06-20 23:00:00+00:00  ...  21.8  µg/m³      6
+2  Paris      FR 2019-06-20 22:00:00+00:00  ...  26.5  µg/m³      6
+3  Paris      FR 2019-06-20 21:00:00+00:00  ...  24.9  µg/m³      6
+4  Paris      FR 2019-06-20 20:00:00+00:00  ...  21.4  µg/m³      6
+
+[5 rows x 8 columns]
+```
+
+由于使用`Timestamp`对象表示日期，pandas提供了许多与时间相关的属性。例如`month`，以及`year`、`quarter`等。所有这些属性都可以通过dt访问器来访问。
+
+> 现有日期属性的概述在[时间和日期组件概述表](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-components)中给出。关于使用`dt`访问器返回类似日期时间的属性的更多详细信息，在[dt访问器](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors)的专用部分中进行了说明。
+
+*对于每个测量位置，每周每天的`NO2`平均浓度是多少？*
+
+```python
+In [13]: air_quality.groupby(
+   ....:     [air_quality["datetime"].dt.weekday, "location"])["value"].mean()
+   ....: 
+Out[13]: 
+datetime  location          
+0         BETR801               27.875000
+          FR04014               24.856250
+          London Westminster    23.969697
+1         BETR801               22.214286
+          FR04014               30.999359
+                                  ...    
+5         FR04014               25.266154
+          London Westminster    24.977612
+6         BETR801               21.896552
+          FR04014               23.274306
+          London Westminster    24.859155
+Name: value, Length: 21, dtype: float64
+```
+
+记得在[统计计算教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html#min-tut-06-stats)中提到的由`groupby`提供的分割-应用-合并模式吗？在这里，我们想要计算每个工作日和每个测量位置的给定统计量（例如`NO2`的平均值）。为了按工作日分组，我们使用了pandas `Timestamp`的datetime属性weekday（其中星期一=0，星期日=6），该属性也可以通过dt访问器访问。对位置和工作日的分组可以用来分别计算这些组合的均值。
+
+> 由于我们在这些示例中处理的是一个非常短的时间序列，因此该分析不会提供一个长期的代表性结果！
+
+*将所有站的时间序列中的典型`NO2`模式绘制在同一天内。换句话说，每天每个小时的平均值是多少？*
+
+```python
+In [14]: fig, axs = plt.subplots(figsize=(12, 4))
+
+In [15]: air_quality.groupby(air_quality["datetime"].dt.hour)["value"].mean().plot(
+   ....:     kind='bar', rot=0, ax=axs
+   ....: )
+   ....: 
+Out[15]: <Axes: xlabel='datetime'>
+
+In [16]: plt.xlabel("Hour of the day");  # custom x label using Matplotlib
+
+In [17]: plt.ylabel("$NO_2 (µg/m^3)$");
+```
+
+![](https://pandas.pydata.org/docs/_images/09_bar_chart.png)
+
+与前面的情况类似，我们想要计算每天每个小时的给定统计量（例如`NO2`的平均值），并且我们可以再次使用分割-应用-合并的方法。对于这种情况，我们使用了pandas `Timestamp`的datetime属性`hour`，该属性也可以通过`dt`访问器访问。
+
+## 9.2 Datetime作为索引
+
+在[重塑教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/07_reshape_table_layout.html#min-tut-07-reshape)中，介绍了[`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.pivot.html#pandas.pivot)函数来重新组织数据表，其中每个测量位置都作为单独的列。
+
+```python
+In [18]: no_2 = air_quality.pivot(index="datetime", columns="location", values="value")
+
+In [19]: no_2.head()
+Out[19]: 
+location                   BETR801  FR04014  London Westminster
+datetime                                                       
+2019-05-07 01:00:00+00:00     50.5     25.0                23.0
+2019-05-07 02:00:00+00:00     45.0     27.7                19.0
+2019-05-07 03:00:00+00:00      NaN     50.4                19.0
+2019-05-07 04:00:00+00:00      NaN     61.9                16.0
+2019-05-07 05:00:00+00:00      NaN     72.4                 NaN
+```
+
+> 通过将数据透视，日期时间信息变成了表格的索引。一般来说，通过将某一列设置为索引可以通过`set_index`函数来实现。
+
+使用日期时间索引（即`DatetimeIndex`）提供了强大的功能。例如，我们不需要使用`dt`访问器来获取时间序列的属性，而是可以直接在索引上访问这些属性：
+
+```python
+In [20]: no_2.index.year, no_2.index.weekday
+Out[20]: 
+(Index([2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019,
+        ...
+        2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019],
+       dtype='int32', name='datetime', length=1033),
+ Index([1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        ...
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+       dtype='int32', name='datetime', length=1033))
+```
+
+其他一些优势包括方便地选择时间段或在图表上调整时间刻度。让我们在数据上应用这些功能。
+
+*创建从5月20日到5月21日结束的不同站点的`NO2`值的图表*
+
+```python
+In [21]: no_2["2019-05-20":"2019-05-21"].plot();
+```
+
+![](https://pandas.pydata.org/docs/_images/09_time_section.png)
+
+通过提供一个**可以解析为日期时间的字符串**，可以在`DatetimeIndex`上选择数据的特定子集。
+
+> 更多关于`DatetimeIndex`和使用字符串切片的信息，请查阅[时间序列索引](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-datetimeindex)部分。
+
+## 9.3 重新采样时间序列到另一个频率
+
+*将当前的小时时间序列值聚合到每个月的每个站点的最大值。*
+
+```python
+In [22]: monthly_max = no_2.resample("ME").max()
+
+In [23]: monthly_max
+Out[23]: 
+location                   BETR801  FR04014  London Westminster
+datetime                                                       
+2019-05-31 00:00:00+00:00     74.5     97.0                97.0
+2019-06-30 00:00:00+00:00     52.5     84.7                52.0
+```
+
+具有日期时间索引的时间序列数据的一个非常强大的方法是能够使用[`resample()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.resample.html#pandas.Series.resample)函数将时间序列重新采样到另一个频率（例如，将秒级数据转换为5分钟级数据）。
+
+[`resample()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.resample.html#pandas.Series.resample)方法类似于groupby操作：
+
+- 它通过使用一个字符串（例如`M`，`5H`等）来定义目标频率，从而基于时间进行分组
+- 它需要一个聚合函数，如`mean`，`max`等
+
+> 在[偏移量别名概述表](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-offset-aliases)中提供了用于定义时间序列频率的别名的概述。
+
+当定义后，时间序列的频率由`freq`属性提供：
+
+```python
+In [24]: monthly_max.index.freq
+Out[24]: <MonthEnd>
+```
+
+*为每个站点绘制日平均`NO2`值的图表。*
+
+```python
+In [25]: no_2.resample("D").mean().plot(style="-o", figsize=(10, 5));
+```
+
+![](https://pandas.pydata.org/docs/_images/09_resample_mean.png)
+
+> 用户指南中关于时间序列`重新采样`的强大功能的更多详细信息可以在[重新采样](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-resampling)部分找到。
+
+**记住**
+- 有效的日期字符串可以使用`to_datetime`函数或在读取函数的一部分中转换为日期时间对象。
+- pandas中的日期时间对象支持使用`dt`访问器进行计算、逻辑运算和方便的与日期相关的属性。
+- `DatetimeIndex`包含这些与日期相关的属性并支持方便的切片。
+- `Resample`是一个强大的方法，用于改变时间序列的频率。
+
+> [时间序列和日期功能](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries)页面上提供了时间序列的全面概述。
+
+# 10.如何处理文本数据
+
+> 本教程使用泰坦尼克号数据集，该数据集以CSV格式存储。
+
+```python
+In [1]: import pandas as pd
+
+In [2]: titanic = pd.read_csv("data/titanic.csv")
+
+In [3]: titanic.head()
+Out[3]: 
+   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+0            1         0       3  ...   7.2500   NaN         S
+1            2         1       1  ...  71.2833   C85         C
+2            3         1       3  ...   7.9250   NaN         S
+3            4         1       1  ...  53.1000  C123         S
+4            5         0       3  ...   8.0500   NaN         S
+
+[5 rows x 12 columns]
+```
+
+*将所有名称字符转换为小写。*
+
+```python
+In [4]: titanic["Name"].str.lower()
+Out[4]: 
+0                                braund, mr. owen harris
+1      cumings, mrs. john bradley (florence briggs th...
+2                                 heikkinen, miss. laina
+3           futrelle, mrs. jacques heath (lily may peel)
+4                               allen, mr. william henry
+                             ...                        
+886                                montvila, rev. juozas
+887                         graham, miss. margaret edith
+888             johnston, miss. catherine helen "carrie"
+889                                behr, mr. karl howell
+890                                  dooley, mr. patrick
+Name: Name, Length: 891, dtype: object
+```
+
+为了将`Name`列中的每个字符串转换为小写，请选择`Name`列（参考[数据选择教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)），添加`str`访问器并应用`lower`方法。这样，每个字符串都会逐个元素地进行转换。
+
+类似于[时间序列教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/09_timeseries.html#min-tut-09-timeseries)中的datetime对象有一个`dt`访问器，当使用`str`访问器时，也有许多专门的字符串方法可用。这些方法在名称上与用于单个元素的等效内置字符串方法大致匹配，但会逐个元素地应用于列中的每个值（还记得[逐个元素的计算吗？](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html#min-tut-05-columns)）。
+
+*创建一个新列`Surname`，其中包含乘客的姓氏，通过提取逗号前的部分。*
+
+```python
+In [5]: titanic["Name"].str.split(",")
+Out[5]: 
+0                             [Braund,  Mr. Owen Harris]
+1      [Cumings,  Mrs. John Bradley (Florence Briggs ...
+2                              [Heikkinen,  Miss. Laina]
+3        [Futrelle,  Mrs. Jacques Heath (Lily May Peel)]
+4                            [Allen,  Mr. William Henry]
+                             ...                        
+886                             [Montvila,  Rev. Juozas]
+887                      [Graham,  Miss. Margaret Edith]
+888          [Johnston,  Miss. Catherine Helen "Carrie"]
+889                             [Behr,  Mr. Karl Howell]
+890                               [Dooley,  Mr. Patrick]
+Name: Name, Length: 891, dtype: object
+```
+
+使用[`Series.str.split()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.split.html#pandas.Series.str.split)方法，每个值都会作为包含两个元素的列表返回。第一个元素是逗号前的部分，第二个元素是逗号后的部分。
+
+```python
+In [6]: titanic["Surname"] = titanic["Name"].str.split(",").str.get(0)
+
+In [7]: titanic["Surname"]
+Out[7]: 
+0         Braund
+1        Cumings
+2      Heikkinen
+3       Futrelle
+4          Allen
+         ...    
+886     Montvila
+887       Graham
+888     Johnston
+889         Behr
+890       Dooley
+Name: Surname, Length: 891, dtype: object
+```
+
+由于我们只关心代表姓氏的第一部分（元素0），我们可以再次使用`str`访问器并应用[`Series.str.get()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.get.html#pandas.Series.str.get)来提取相关的部分。事实上，这些字符串函数可以连接起来以同时组合多个函数！
+
+> 有关提取字符串部分的更多信息，可以在用户指南中的[分割和替换字符串](https://pandas.pydata.org/docs/user_guide/text.html#text-split)部分找到。
+
+*提取泰坦尼克号上伯爵夫人的乘客数据。*
+
+```python
+In [8]: titanic["Name"].str.contains("Countess")
+Out[8]: 
+0      False
+1      False
+2      False
+3      False
+4      False
+       ...  
+886    False
+887    False
+888    False
+889    False
+890    False
+Name: Name, Length: 891, dtype: bool
+```
+
+```python
+In [9]: titanic[titanic["Name"].str.contains("Countess")]
+Out[9]: 
+     PassengerId  Survived  Pclass  ... Cabin Embarked  Surname
+759          760         1       1  ...   B77        S   Rothes
+
+[1 rows x 13 columns]
+```
+
+字符串方法[`Series.str.contains()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html#pandas.Series.str.contains)会检查`Name`列中的每个值，看字符串是否包含单词`Countess`，并为每个值返回`True`（`Countess`是名字的一部分）或`False`（`Countess`不是名字的一部分）。这个输出可以用于使用在[数据子集教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)中介绍的条件（布尔）索引来选择数据。由于泰坦尼克号上只有一位伯爵夫人，因此我们得到一行作为结果。
+
+> 字符串的更强大的提取功能得到了支持，因为[`Series.str.contains()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html#pandas.Series.str.contains)和[`Series.str.extract()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.extract.html#pandas.Series.str.extract)方法接受[正则表达式](https://docs.python.org/3/library/re.html)，但这超出了本教程的范围。
+
+> 有关提取字符串部分的更多信息，可以在用户指南中的[字符串匹配和提取](https://pandas.pydata.org/docs/user_guide/text.html#text-extract)部分找到。
+
+*泰坦尼克号上哪位乘客的名字最长？*
+
+```python
+In [10]: titanic["Name"].str.len()
+Out[10]: 
+0      23
+1      51
+2      22
+3      44
+4      24
+       ..
+886    21
+887    28
+888    40
+889    21
+890    19
+Name: Name, Length: 891, dtype: int64
+```
+
+为了获取最长的名字，我们首先需要获取`Name`列中每个名字的长度。通过使用pandas的字符串方法，`[`Series.str.len()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html#pandas.Series.str.len)`函数会逐个（按元素）应用于每个名字。
+
+```python
+In [11]: titanic["Name"].str.len().idxmax()
+Out[11]: 307
+```
+
+接下来，我们需要获取表格中名字长度最大的那行对应的位置，最好是索引标签。`[`idxmax()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.idxmax.html#pandas.Series.idxmax)`方法正是这样做的。它不是字符串方法，而是应用于整数，因此不需要使用`str`。
+
+```python
+In [12]: titanic.loc[titanic["Name"].str.len().idxmax(), "Name"]
+Out[12]: 'Penasco y Castellana, Mrs. Victor de Satode (Maria Josefa Perez de Soto y Vallejo)'
+```
+
+基于行的索引名（`307`）和列名（`Name`），我们可以使用在[子集教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)中介绍的`loc`操作符进行选择。
+
+*在“Sex”列中，将“male”的值替换为“M”，将“female”的值替换为“F”。*
+
+```python
+In [13]: titanic["Sex_short"] = titanic["Sex"].replace({"male": "M", "female": "F"})
+
+In [14]: titanic["Sex_short"]
+Out[14]: 
+0      M
+1      F
+2      F
+3      F
+4      M
+      ..
+886    M
+887    F
+888    F
+889    M
+890    M
+Name: Sex_short, Length: 891, dtype: object
+```
+
+尽管[`replace()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.replace.html#pandas.Series.replace)不是字符串方法，但它提供了一种方便的方式来使用映射或词汇表来翻译某些值。它需要一个`dictionary`来定义映射`{from: to}`。
+
+还有一个[`replace()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.replace.html#pandas.Series.str.replace)方法可用于替换一组特定的字符。然而，当有一个多值映射时，这会变成：
+
+```python
+titanic["Sex_short"] = titanic["Sex"].str.replace("female", "F")
+titanic["Sex_short"] = titanic["Sex_short"].str.replace("male", "M")
+```
+
+这会变得繁琐且容易出错。只要想一想（或自己尝试一下），如果这两个语句以相反的顺序应用，会发生什么……
+
+**记住**
+- 字符串方法可以通过`str`访问器来使用。
+- 字符串方法按元素工作，并可用于条件索引。
+- `replace`方法是一个方便的方法来根据给定的字典转换值。
+
+> 关于[处理文本数据](https://pandas.pydata.org/docs/user_guide/text.html#text)的用户指南页面提供了全面的概述。

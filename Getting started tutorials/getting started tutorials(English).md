@@ -8,7 +8,7 @@ In [1]: import pandas as pd
 
 To load the pandas package and start working with it, import the package. The community agreed alias for pandas is `pd`, so loading pandas as `pd` is assumed standard practice for all of the pandas documentation.
 
-## pandas data table representation
+## 1.1 pandas data table representation
 
 ![](https://pandas.pydata.org/docs/_images/01_table_dataframe.svg)
 
@@ -47,7 +47,7 @@ In spreadsheet software, the table representation of our data would look very si
 
 ![](https://pandas.pydata.org/docs/_images/01_table_spreadsheet.png)
 
-## Each column in a `DataFrame` is a `Series`
+## 1.2 Each column in a `DataFrame` is a `Series`
 
 ![](https://pandas.pydata.org/docs/_images/01_table_series.svg)
 
@@ -81,7 +81,7 @@ Name: Age, dtype: int64
 
 A pandas `Series` has no column labels, as it is just a single column of a `DataFrame`. A Series does have row labels.
 
-## Do something with a DataFrame or Series
+## 1.3 Do something with a DataFrame or Series
 
 *I want to know the maximum Age of the passengers*
 
@@ -314,7 +314,7 @@ Out[3]:
 [5 rows x 12 columns]
 ```
 
-## How do I select specific columns from a `DataFrame`?
+## 3.1 How do I select specific columns from a `DataFrame`?
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_columns.svg)
 
@@ -384,7 +384,7 @@ The selection returned a `DataFrame` with 891 rows and 2 columns. Remember, a `D
 
 > For basic information on indexing, see the user guide section on [indexing and selecting data](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-basics).
 
-## How do I filter specific rows from a DataFrame?
+## 3.2 How do I filter specific rows from a DataFrame?
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_rows.svg)
 
@@ -503,7 +503,7 @@ Out[22]: (714, 12)
 
 For more dedicated functions on missing values, see the user guide section about [handling missing data](https://pandas.pydata.org/docs/user_guide/missing_data.html#missing-data).
 
-## How do I select specific rows and columns from a DataFrame?
+## 3.3 How do I select specific rows and columns from a DataFrame?
 
 ![](https://pandas.pydata.org/docs/_images/03_subset_columns_rows.svg)
 
@@ -878,7 +878,7 @@ Out[3]:
 [5 rows x 12 columns]
 ```
 
-## Aggregating statistics
+## 6.1 Aggregating statistics
 
 ![](https://pandas.pydata.org/docs/_images/06_aggregate.svg)
 
@@ -942,7 +942,7 @@ mean          NaN   32.204208
 
 > Details about descriptive statistics are provided in the user guide section on [descriptive statistics](https://pandas.pydata.org/docs/user_guide/basics.html#basics-stats).
 
-## Aggregating statistics grouped by category
+## 6.2 Aggregating statistics grouped by category
 
 ![](https://pandas.pydata.org/docs/_images/06_groupby.svg)
 
@@ -1014,7 +1014,7 @@ Grouping can be done by multiple columns at the same time. Provide the column na
 
 > A full description on the split-apply-combine approach is provided in the user guide section on [groupby operations](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby).
 
-## Count number of records by category
+## 6.3 Count number of records by category
 
 ![](https://pandas.pydata.org/docs/_images/06_valuecounts.svg)
 
@@ -1055,7 +1055,7 @@ Name: Pclass, dtype: int64
 
 > A full description on the split-apply-combine approach is provided in the user guide pages about [groupby operations](https://pandas.pydata.org/docs/user_guide/groupby.html#groupby).
 
-# How to reshape the layout of tables
+# 7.How to reshape the layout of tables
 
 > This tutorial uses the Titanic data set, stored as CSV.
 
@@ -1093,7 +1093,7 @@ date.utc
 2019-06-17 05:00:00+00:00  Antwerpen      BE  BETR801      pm25    7.5  µg/m³
 ```
 
-## Sort table rows
+## 7.1 Sort table rows
 
 *I want to sort the Titanic data according to the age of the passengers.*
 
@@ -1129,7 +1129,7 @@ With [`DataFrame.sort_values()`](https://pandas.pydata.org/docs/reference/api/pa
 
 > More details about sorting of tables is provided in the user guide section on [sorting data](https://pandas.pydata.org/docs/user_guide/basics.html#basics-sorting).
 
-## Long to wide table format
+## 7.2 Long to wide table format
 
 Let’s use a small subset of the air quality data set. We focus on `NO2` data and only use the first two measurements of each location (i.e. the head of each group). The subset of data will be called `no2_subset`.
 
@@ -1244,7 +1244,7 @@ In case you are wondering, `pivot_table()` is indeed directly linked to `groupby
 air_quality.groupby(["parameter", "location"])[["value"]].mean()
 ```
 
-## Wide to long format
+## 7.3 Wide to long format
 
 Starting again from the wide format table created in the previous section, we add a new index to the `DataFrame` with [`reset_index()`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html#pandas.DataFrame.reset_index).
 
@@ -1319,3 +1319,658 @@ Hence, the arguments `value_name` and `var_name` are just user-defined names for
 - The reverse of `pivot` (long to wide format) is `melt` (wide to long format).
 
 > A full overview is available in the user guide on the pages about [reshaping and pivoting](https://pandas.pydata.org/docs/user_guide/reshaping.html#reshaping).
+
+# 8.How to combine data from multiple tables
+
+> For this tutorial, air quality data about `NO2` is used, made available by OpenAQ and downloaded using the py-openaq package.
+
+> For this tutorial, air quality data about Particulate matter less than 2.5 micrometers is used, made available by OpenAQ and downloaded using the py-openaq package.
+
+```python
+In [1]: import pandas as pd
+
+In [2]: air_quality_no2 = pd.read_csv("data/air_quality_no2_long.csv",
+   ...:                               parse_dates=True)
+   ...: 
+
+In [3]: air_quality_no2 = air_quality_no2[["date.utc", "location",
+   ...:                                    "parameter", "value"]]
+   ...: 
+
+In [4]: air_quality_no2.head()
+Out[4]: 
+                    date.utc location parameter  value
+0  2019-06-21 00:00:00+00:00  FR04014       no2   20.0
+1  2019-06-20 23:00:00+00:00  FR04014       no2   21.8
+2  2019-06-20 22:00:00+00:00  FR04014       no2   26.5
+3  2019-06-20 21:00:00+00:00  FR04014       no2   24.9
+4  2019-06-20 20:00:00+00:00  FR04014       no2   21.4
+
+In [5]: air_quality_pm25 = pd.read_csv("data/air_quality_pm25_long.csv",
+   ...:                                parse_dates=True)
+   ...: 
+
+In [6]: air_quality_pm25 = air_quality_pm25[["date.utc", "location",
+   ...:                                      "parameter", "value"]]
+   ...: 
+
+In [7]: air_quality_pm25.head()
+Out[7]: 
+                    date.utc location parameter  value
+0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+## 8.1 Concatenating objects
+
+![](https://pandas.pydata.org/docs/_images/08_concat_row.svg)
+
+*I want to combine the measurements of `NO2` and `PM25`, two tables with a similar structure, in a single table.*
+
+```python
+In [8]: air_quality = pd.concat([air_quality_pm25, air_quality_no2], axis=0)
+
+In [9]: air_quality.head()
+Out[9]: 
+                    date.utc location parameter  value
+0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+The [`concat()`](https://pandas.pydata.org/docs/reference/api/pandas.concat.html#pandas.concat) function performs concatenation operations of multiple tables along one of the axes (row-wise or column-wise).
+
+By default concatenation is along axis 0, so the resulting table combines the rows of the input tables. Let’s check the shape of the original and the concatenated tables to verify the operation:
+
+```python
+In [10]: print('Shape of the ``air_quality_pm25`` table: ', air_quality_pm25.shape)
+Shape of the ``air_quality_pm25`` table:  (1110, 4)
+
+In [11]: print('Shape of the ``air_quality_no2`` table: ', air_quality_no2.shape)
+Shape of the ``air_quality_no2`` table:  (2068, 4)
+
+In [12]: print('Shape of the resulting ``air_quality`` table: ', air_quality.shape)
+Shape of the resulting ``air_quality`` table:  (3178, 4)
+```
+
+Hence, the resulting table has 3178 = 1110 + 2068 rows.
+
+> The **axis** argument will return in a number of pandas methods that can be applied **along an axis**. A `DataFrame` has two corresponding axes: the first running vertically downwards across rows (axis 0), and the second running horizontally across columns (axis 1). Most operations like concatenation or summary statistics are by default across rows (axis 0), but can be applied across columns as well.
+
+Sorting the table on the datetime information illustrates also the combination of both tables, with the `parameter` column defining the origin of the table (either `no2` from table `air_quality_no2` or `pm25` from table `air_quality_pm25`):
+
+```python
+In [13]: air_quality = air_quality.sort_values("date.utc")
+
+In [14]: air_quality.head()
+Out[14]: 
+                       date.utc            location parameter  value
+2067  2019-05-07 01:00:00+00:00  London Westminster       no2   23.0
+1003  2019-05-07 01:00:00+00:00             FR04014       no2   25.0
+100   2019-05-07 01:00:00+00:00             BETR801      pm25   12.5
+1098  2019-05-07 01:00:00+00:00             BETR801       no2   50.5
+1109  2019-05-07 01:00:00+00:00  London Westminster      pm25    8.0
+```
+
+In this specific example, the `parameter` column provided by the data ensures that each of the original tables can be identified. This is not always the case. The `concat` function provides a convenient solution with the `keys` argument, adding an additional (hierarchical) row index. For example:
+
+```python
+In [15]: air_quality_ = pd.concat([air_quality_pm25, air_quality_no2], keys=["PM25", "NO2"])
+
+In [16]: air_quality_.head()
+Out[16]: 
+                         date.utc location parameter  value
+PM25 0  2019-06-18 06:00:00+00:00  BETR801      pm25   18.0
+     1  2019-06-17 08:00:00+00:00  BETR801      pm25    6.5
+     2  2019-06-17 07:00:00+00:00  BETR801      pm25   18.5
+     3  2019-06-17 06:00:00+00:00  BETR801      pm25   16.0
+     4  2019-06-17 05:00:00+00:00  BETR801      pm25    7.5
+```
+
+> The existence of multiple row/column indices at the same time has not been mentioned within these tutorials. *Hierarchical indexing* or *MultiIndex* is an advanced and powerful pandas feature to analyze higher dimensional data.
+
+> Multi-indexing is out of scope for this pandas introduction. For the moment, remember that the function `reset_index` can be used to convert any level of an index to a column, e.g. `air_quality.reset_index(level=0)`
+
+> Feel free to dive into the world of multi-indexing at the user guide section on [advanced indexing](https://pandas.pydata.org/docs/user_guide/advanced.html#advanced).
+
+> More options on table concatenation (row and column wise) and how `concat` can be used to define the logic (union or intersection) of the indexes on the other axes is provided at the section on [object concatenation](https://pandas.pydata.org/docs/user_guide/merging.html#merging-concat).
+
+## 8.2 Join tables using a common identifier
+
+![](https://pandas.pydata.org/docs/_images/08_merge_left.svg)
+
+*Add the station coordinates, provided by the stations metadata table, to the corresponding rows in the measurements table.*
+
+> The air quality measurement station coordinates are stored in a data file `air_quality_stations.csv`, downloaded using the [py-openaq](http://dhhagan.github.io/py-openaq/index.html) package.
+
+```python
+In [17]: stations_coord = pd.read_csv("data/air_quality_stations.csv")
+
+In [18]: stations_coord.head()
+Out[18]: 
+  location  coordinates.latitude  coordinates.longitude
+0  BELAL01              51.23619                4.38522
+1  BELHB23              51.17030                4.34100
+2  BELLD01              51.10998                5.00486
+3  BELLD02              51.12038                5.02155
+4  BELR833              51.32766                4.36226
+```
+
+The stations used in this example (FR04014, BETR801 and London Westminster) are just three entries enlisted in the metadata table. We only want to add the coordinates of these three to the measurements table, each on the corresponding rows of the `air_quality` table.
+
+```python
+In [19]: air_quality.head()
+Out[19]: 
+                       date.utc            location parameter  value
+2067  2019-05-07 01:00:00+00:00  London Westminster       no2   23.0
+1003  2019-05-07 01:00:00+00:00             FR04014       no2   25.0
+100   2019-05-07 01:00:00+00:00             BETR801      pm25   12.5
+1098  2019-05-07 01:00:00+00:00             BETR801       no2   50.5
+1109  2019-05-07 01:00:00+00:00  London Westminster      pm25    8.0
+```
+
+```python
+In [20]: air_quality = pd.merge(air_quality, stations_coord, how="left", on="location")
+
+In [21]: air_quality.head()
+Out[21]: 
+                    date.utc  ... coordinates.longitude
+0  2019-05-07 01:00:00+00:00  ...              -0.13193
+1  2019-05-07 01:00:00+00:00  ...               2.39390
+2  2019-05-07 01:00:00+00:00  ...               2.39390
+3  2019-05-07 01:00:00+00:00  ...               4.43182
+4  2019-05-07 01:00:00+00:00  ...               4.43182
+
+[5 rows x 6 columns]
+```
+
+Using the [`merge()`](https://pandas.pydata.org/docs/reference/api/pandas.merge.html#pandas.merge) function, for each of the rows in the `air_quality` table, the corresponding coordinates are added from the `air_quality_stations_coord` table. Both tables have the column `location` in common which is used as a key to combine the information. By choosing the `left` join, only the locations available in the `air_quality` (left) table, i.e. FR04014, BETR801 and London Westminster, end up in the resulting table. The `merge` function supports multiple join options similar to database-style operations.
+
+*Add the parameters’ full description and name, provided by the parameters metadata table, to the measurements table.*
+
+> The air quality parameters metadata are stored in a data file `air_quality_parameters.csv`, downloaded using the [py-openaq](http://dhhagan.github.io/py-openaq/index.html) package.
+
+```python
+In [22]: air_quality_parameters = pd.read_csv("data/air_quality_parameters.csv")
+
+In [23]: air_quality_parameters.head()
+Out[23]: 
+     id                                        description  name
+0    bc                                       Black Carbon    BC
+1    co                                    Carbon Monoxide    CO
+2   no2                                   Nitrogen Dioxide   NO2
+3    o3                                              Ozone    O3
+4  pm10  Particulate matter less than 10 micrometers in...  PM10
+```
+
+```python
+In [24]: air_quality = pd.merge(air_quality, air_quality_parameters,
+   ....:                        how='left', left_on='parameter', right_on='id')
+   ....: 
+
+In [25]: air_quality.head()
+Out[25]: 
+                    date.utc  ...   name
+0  2019-05-07 01:00:00+00:00  ...    NO2
+1  2019-05-07 01:00:00+00:00  ...    NO2
+2  2019-05-07 01:00:00+00:00  ...    NO2
+3  2019-05-07 01:00:00+00:00  ...  PM2.5
+4  2019-05-07 01:00:00+00:00  ...    NO2
+
+[5 rows x 9 columns]
+```
+
+Compared to the previous example, there is no common column name. However, the `parameter` column in the `air_quality` table and the `id` column in the `air_quality_parameters_name` both provide the measured variable in a common format. The `left_on` and `right_on` arguments are used here (instead of just `on`) to make the link between the two tables.
+
+> pandas supports also inner, outer, and right joins. More information on join/merge of tables is provided in the user guide section on [database style merging of tables](https://pandas.pydata.org/docs/user_guide/merging.html#merging-join). Or have a look at the [comparison with SQL](https://pandas.pydata.org/docs/getting_started/comparison/comparison_with_sql.html#compare-with-sql-join) page.
+
+**REMEMBER**
+- Multiple tables can be concatenated both column-wise and row-wise using the `concat` function.
+- For database-like merging/joining of tables, use the merge function.
+
+> See the user guide for a full description of the various [facilities to combine data tables](https://pandas.pydata.org/docs/user_guide/merging.html#merging).
+
+# 9.How to handle time series data with ease
+
+> For this tutorial, air quality data about `NO2` and Particulate matter less than 2.5 micrometers is used, made available by [OpenAQ](https://openaq.org/) and downloaded using the [py-openaq](http://dhhagan.github.io/py-openaq/index.html) package.
+
+```python
+In [1]: import pandas as pd
+
+In [2]: import matplotlib.pyplot as plt
+
+In [3]: air_quality = pd.read_csv("data/air_quality_no2_long.csv")
+
+In [4]: air_quality = air_quality.rename(columns={"date.utc": "datetime"})
+
+In [5]: air_quality.head()
+Out[5]: 
+    city country                   datetime location parameter  value   unit
+0  Paris      FR  2019-06-21 00:00:00+00:00  FR04014       no2   20.0  µg/m³
+1  Paris      FR  2019-06-20 23:00:00+00:00  FR04014       no2   21.8  µg/m³
+2  Paris      FR  2019-06-20 22:00:00+00:00  FR04014       no2   26.5  µg/m³
+3  Paris      FR  2019-06-20 21:00:00+00:00  FR04014       no2   24.9  µg/m³
+4  Paris      FR  2019-06-20 20:00:00+00:00  FR04014       no2   21.4  µg/m³
+
+In [6]: air_quality.city.unique()
+Out[6]: array(['Paris', 'Antwerpen', 'London'], dtype=object)
+```
+
+## 9.1 Using pandas datetime properties
+
+*I want to work with the dates in the column datetime as datetime objects instead of plain text*
+
+```python
+In [7]: air_quality["datetime"] = pd.to_datetime(air_quality["datetime"])
+
+In [8]: air_quality["datetime"]
+Out[8]: 
+0      2019-06-21 00:00:00+00:00
+1      2019-06-20 23:00:00+00:00
+2      2019-06-20 22:00:00+00:00
+3      2019-06-20 21:00:00+00:00
+4      2019-06-20 20:00:00+00:00
+                  ...           
+2063   2019-05-07 06:00:00+00:00
+2064   2019-05-07 04:00:00+00:00
+2065   2019-05-07 03:00:00+00:00
+2066   2019-05-07 02:00:00+00:00
+2067   2019-05-07 01:00:00+00:00
+Name: datetime, Length: 2068, dtype: datetime64[ns, UTC]
+```
+
+Initially, the values in `datetime` are character strings and do not provide any datetime operations (e.g. extract the year, day of the week,…). By applying the `to_datetime` function, pandas interprets the strings and convert these to datetime (i.e. `datetime64[ns, UTC]`) objects. In pandas we call these datetime objects similar to `datetime.datetime` from the standard library as [pandas.Timestamp](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp).
+
+> As many data sets do contain datetime information in one of the columns, pandas input function like [`pandas.read_csv()`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv) and [`pandas.read_json()`](https://pandas.pydata.org/docs/reference/api/pandas.read_json.html#pandas.read_json) can do the transformation to dates when reading the data using the `parse_dates` parameter with a list of the columns to read as Timestamp:
+
+```python
+pd.read_csv("../data/air_quality_no2_long.csv", parse_dates=["datetime"])
+```
+
+Why are these [`pandas.Timestamp`](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) objects useful? Let’s illustrate the added value with some example cases.
+
+What is the start and end date of the time series data set we are working with?
+
+```python
+In [9]: air_quality["datetime"].min(), air_quality["datetime"].max()
+Out[9]: 
+(Timestamp('2019-05-07 01:00:00+0000', tz='UTC'),
+ Timestamp('2019-06-21 00:00:00+0000', tz='UTC'))
+```
+
+Using `pandas.Timestamp` for datetimes enables us to calculate with date information and make them comparable. Hence, we can use this to get the length of our time series:
+
+```python
+In [10]: air_quality["datetime"].max() - air_quality["datetime"].min()
+Out[10]: Timedelta('44 days 23:00:00')
+```
+
+The result is a [`pandas.Timedelta`](https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta) object, similar to `datetime.timedelta` from the standard Python library and defining a time duration.
+
+> The various time concepts supported by pandas are explained in the user guide section on [time related concepts](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-overview).
+
+*I want to add a new column to the `DataFrame` containing only the month of the measurement*
+
+```python
+In [11]: air_quality["month"] = air_quality["datetime"].dt.month
+
+In [12]: air_quality.head()
+Out[12]: 
+    city country                  datetime  ... value   unit  month
+0  Paris      FR 2019-06-21 00:00:00+00:00  ...  20.0  µg/m³      6
+1  Paris      FR 2019-06-20 23:00:00+00:00  ...  21.8  µg/m³      6
+2  Paris      FR 2019-06-20 22:00:00+00:00  ...  26.5  µg/m³      6
+3  Paris      FR 2019-06-20 21:00:00+00:00  ...  24.9  µg/m³      6
+4  Paris      FR 2019-06-20 20:00:00+00:00  ...  21.4  µg/m³      6
+
+[5 rows x 8 columns]
+```
+
+By using `Timestamp` objects for dates, a lot of time-related properties are provided by pandas. For example the `month`, but also `year`, `quarter`,… All of these properties are accessible by the dt accessor.
+
+> An overview of the existing date properties is given in the [time and date components overview table](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-components). More details about the `dt` accessor to return datetime like properties are explained in a dedicated section on the [dt accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors).
+
+*What is the average `NO2` concentration for each day of the week for each of the measurement locations?*
+
+```python
+In [13]: air_quality.groupby(
+   ....:     [air_quality["datetime"].dt.weekday, "location"])["value"].mean()
+   ....: 
+Out[13]: 
+datetime  location          
+0         BETR801               27.875000
+          FR04014               24.856250
+          London Westminster    23.969697
+1         BETR801               22.214286
+          FR04014               30.999359
+                                  ...    
+5         FR04014               25.266154
+          London Westminster    24.977612
+6         BETR801               21.896552
+          FR04014               23.274306
+          London Westminster    24.859155
+Name: value, Length: 21, dtype: float64
+```
+
+Remember the split-apply-combine pattern provided by `groupby` from the [tutorial on statistics calculation?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html#min-tut-06-stats) Here, we want to calculate a given statistic (e.g. mean `NO2`) **for each weekday** and **for each measurement location**. To group on weekdays, we use the datetime property weekday (with Monday=0 and Sunday=6) of pandas `Timestamp`, which is also accessible by the dt accessor. The grouping on both locations and weekdays can be done to split the calculation of the mean on each of these combinations.
+
+> As we are working with a very short time series in these examples, the analysis does not provide a long-term representative result!
+
+*Plot the typical `NO2` pattern during the day of our time series of all stations together. In other words, what is the average value for each hour of the day?*
+
+```python
+In [14]: fig, axs = plt.subplots(figsize=(12, 4))
+
+In [15]: air_quality.groupby(air_quality["datetime"].dt.hour)["value"].mean().plot(
+   ....:     kind='bar', rot=0, ax=axs
+   ....: )
+   ....: 
+Out[15]: <Axes: xlabel='datetime'>
+
+In [16]: plt.xlabel("Hour of the day");  # custom x label using Matplotlib
+
+In [17]: plt.ylabel("$NO_2 (µg/m^3)$");
+```
+
+![](https://pandas.pydata.org/docs/_images/09_bar_chart.png)
+
+Similar to the previous case, we want to calculate a given statistic (e.g. mean `NO2`) **for each hour of the day** and we can use the split-apply-combine approach again. For this case, we use the datetime property `hour` of pandas `Timestamp`, which is also accessible by the `dt` accessor.
+
+## 9.2 Datetime as index
+
+In the [tutorial on reshaping](https://pandas.pydata.org/docs/getting_started/intro_tutorials/07_reshape_table_layout.html#min-tut-07-reshape), [`pivot()`](https://pandas.pydata.org/docs/reference/api/pandas.pivot.html#pandas.pivot) was introduced to reshape the data table with each of the measurements locations as a separate column:
+
+```python
+In [18]: no_2 = air_quality.pivot(index="datetime", columns="location", values="value")
+
+In [19]: no_2.head()
+Out[19]: 
+location                   BETR801  FR04014  London Westminster
+datetime                                                       
+2019-05-07 01:00:00+00:00     50.5     25.0                23.0
+2019-05-07 02:00:00+00:00     45.0     27.7                19.0
+2019-05-07 03:00:00+00:00      NaN     50.4                19.0
+2019-05-07 04:00:00+00:00      NaN     61.9                16.0
+2019-05-07 05:00:00+00:00      NaN     72.4                 NaN
+```
+
+> By pivoting the data, the datetime information became the index of the table. In general, setting a column as an index can be achieved by the `set_index` function.
+
+Working with a datetime index (i.e. `DatetimeIndex`) provides powerful functionalities. For example, we do not need the `dt` accessor to get the time series properties, but have these properties available on the index directly:
+
+```python
+In [20]: no_2.index.year, no_2.index.weekday
+Out[20]: 
+(Index([2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019,
+        ...
+        2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019],
+       dtype='int32', name='datetime', length=1033),
+ Index([1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        ...
+        3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+       dtype='int32', name='datetime', length=1033))
+```
+
+Some other advantages are the convenient subsetting of time period or the adapted time scale on plots. Let’s apply this on our data.
+
+*Create a plot of the `NO2` values in the different stations from the 20th of May till the end of 21st of May*
+
+```python
+In [21]: no_2["2019-05-20":"2019-05-21"].plot();
+```
+
+![](https://pandas.pydata.org/docs/_images/09_time_section.png)
+
+By providing a **string that parses to a datetime**, a specific subset of the data can be selected on a `DatetimeIndex`.
+
+> More information on the `DatetimeIndex` and the slicing by using strings is provided in the section on [time series indexing](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-datetimeindex).
+
+## 9.3 Resample a time series to another frequency
+
+*Aggregate the current hourly time series values to the monthly maximum value in each of the stations.*
+
+```python
+In [22]: monthly_max = no_2.resample("ME").max()
+
+In [23]: monthly_max
+Out[23]: 
+location                   BETR801  FR04014  London Westminster
+datetime                                                       
+2019-05-31 00:00:00+00:00     74.5     97.0                97.0
+2019-06-30 00:00:00+00:00     52.5     84.7                52.0
+```
+
+A very powerful method on time series data with a datetime index, is the ability to [`resample()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.resample.html#pandas.Series.resample) time series to another frequency (e.g., converting secondly data into 5-minutely data).
+
+The [`resample()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.resample.html#pandas.Series.resample) method is similar to a groupby operation:
+
+- it provides a time-based grouping, by using a string (e.g. `M`, `5H`,…) that defines the target frequency
+- it requires an aggregation function such as `mean`, `max`,…
+
+> An overview of the aliases used to define time series frequencies is given in the [offset aliases overview table](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-offset-aliases).
+
+When defined, the frequency of the time series is provided by the `freq` attribute:
+
+```python
+In [24]: monthly_max.index.freq
+Out[24]: <MonthEnd>
+```
+
+*Make a plot of the daily mean `NO2` value in each of the stations.*
+
+```python
+In [25]: no_2.resample("D").mean().plot(style="-o", figsize=(10, 5));
+```
+
+![](https://pandas.pydata.org/docs/_images/09_resample_mean.png)
+
+> More details on the power of time series `resampling` is provided in the user guide section on [resampling](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-resampling).
+
+**REMEMBER**
+- Valid date strings can be converted to datetime objects using `to_datetime` function or as part of read functions.
+- Datetime objects in pandas support calculations, logical operations and convenient date-related properties using the `dt` accessor.
+- A `DatetimeIndex` contains these date-related properties and supports convenient slicing.
+- `Resample` is a powerful method to change the frequency of a time series.
+
+> A full overview on time series is given on the pages on [time series and date functionality](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries).
+
+# 10.How to manipulate textual data
+
+> This tutorial uses the Titanic data set, stored as CSV.
+
+```python
+In [1]: import pandas as pd
+
+In [2]: titanic = pd.read_csv("data/titanic.csv")
+
+In [3]: titanic.head()
+Out[3]: 
+   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+0            1         0       3  ...   7.2500   NaN         S
+1            2         1       1  ...  71.2833   C85         C
+2            3         1       3  ...   7.9250   NaN         S
+3            4         1       1  ...  53.1000  C123         S
+4            5         0       3  ...   8.0500   NaN         S
+
+[5 rows x 12 columns]
+```
+
+*Make all name characters lowercase.*
+
+```python
+In [4]: titanic["Name"].str.lower()
+Out[4]: 
+0                                braund, mr. owen harris
+1      cumings, mrs. john bradley (florence briggs th...
+2                                 heikkinen, miss. laina
+3           futrelle, mrs. jacques heath (lily may peel)
+4                               allen, mr. william henry
+                             ...                        
+886                                montvila, rev. juozas
+887                         graham, miss. margaret edith
+888             johnston, miss. catherine helen "carrie"
+889                                behr, mr. karl howell
+890                                  dooley, mr. patrick
+Name: Name, Length: 891, dtype: object
+```
+
+To make each of the strings in the `Name` column lowercase, select the `Name` column (see the [tutorial on selection of data](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset)), add the `str` accessor and apply the `lower` method. As such, each of the strings is converted element-wise.
+
+Similar to datetime objects in the [time series tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/09_timeseries.html#min-tut-09-timeseries) having a `dt` accessor, a number of specialized string methods are available when using the `str` accessor. These methods have in general matching names with the equivalent built-in string methods for single elements, but are applied element-wise (remember [element-wise calculations?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html#min-tut-05-columns)) on each of the values of the columns.
+
+*Create a new column `Surname` that contains the surname of the passengers by extracting the part before the comma.*
+
+```python
+In [5]: titanic["Name"].str.split(",")
+Out[5]: 
+0                             [Braund,  Mr. Owen Harris]
+1      [Cumings,  Mrs. John Bradley (Florence Briggs ...
+2                              [Heikkinen,  Miss. Laina]
+3        [Futrelle,  Mrs. Jacques Heath (Lily May Peel)]
+4                            [Allen,  Mr. William Henry]
+                             ...                        
+886                             [Montvila,  Rev. Juozas]
+887                      [Graham,  Miss. Margaret Edith]
+888          [Johnston,  Miss. Catherine Helen "Carrie"]
+889                             [Behr,  Mr. Karl Howell]
+890                               [Dooley,  Mr. Patrick]
+Name: Name, Length: 891, dtype: object
+```
+
+Using the [`Series.str.split()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.split.html#pandas.Series.str.split) method, each of the values is returned as a list of 2 elements. The first element is the part before the comma and the second element is the part after the comma.
+
+```python
+In [6]: titanic["Surname"] = titanic["Name"].str.split(",").str.get(0)
+
+In [7]: titanic["Surname"]
+Out[7]: 
+0         Braund
+1        Cumings
+2      Heikkinen
+3       Futrelle
+4          Allen
+         ...    
+886     Montvila
+887       Graham
+888     Johnston
+889         Behr
+890       Dooley
+Name: Surname, Length: 891, dtype: object
+```
+
+As we are only interested in the first part representing the surname (element 0), we can again use the `str` accessor and apply [`Series.str.get()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.get.html#pandas.Series.str.get) to extract the relevant part. Indeed, these string functions can be concatenated to combine multiple functions at once!
+
+> More information on extracting parts of strings is available in the user guide section on [splitting and replacing strings](https://pandas.pydata.org/docs/user_guide/text.html#text-split).
+
+*Extract the passenger data about the countesses on board of the Titanic.*
+
+```python
+In [8]: titanic["Name"].str.contains("Countess")
+Out[8]: 
+0      False
+1      False
+2      False
+3      False
+4      False
+       ...  
+886    False
+887    False
+888    False
+889    False
+890    False
+Name: Name, Length: 891, dtype: bool
+```
+
+```python
+In [9]: titanic[titanic["Name"].str.contains("Countess")]
+Out[9]: 
+     PassengerId  Survived  Pclass  ... Cabin Embarked  Surname
+759          760         1       1  ...   B77        S   Rothes
+
+[1 rows x 13 columns]
+```
+
+The string method [`Series.str.contains()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html#pandas.Series.str.contains) checks for each of the values in the column `Name` if the string contains the word `Countess` and returns for each of the values `True` (`Countess` is part of the name) or `False` (`Countess` is not part of the name). This output can be used to subselect the data using conditional (boolean) indexing introduced in the [subsetting of data tutorial](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset). As there was only one countess on the Titanic, we get one row as a result.
+
+> More powerful extractions on strings are supported, as the [`Series.str.contains()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.contains.html#pandas.Series.str.contains) and [`Series.str.extract()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.extract.html#pandas.Series.str.extract) methods accept [regular expressions](https://docs.python.org/3/library/re.html), but out of scope of this tutorial.
+
+> More information on extracting parts of strings is available in the user guide section on [string matching and extracting](https://pandas.pydata.org/docs/user_guide/text.html#text-extract).
+
+*Which passenger of the Titanic has the longest name?*
+
+```python
+In [10]: titanic["Name"].str.len()
+Out[10]: 
+0      23
+1      51
+2      22
+3      44
+4      24
+       ..
+886    21
+887    28
+888    40
+889    21
+890    19
+Name: Name, Length: 891, dtype: int64
+```
+
+To get the longest name we first have to get the lengths of each of the names in the `Name` column. By using pandas string methods, the [`Series.str.len()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.len.html#pandas.Series.str.len) function is applied to each of the names individually (element-wise).
+
+```python
+In [11]: titanic["Name"].str.len().idxmax()
+Out[11]: 307
+```
+
+Next, we need to get the corresponding location, preferably the index label, in the table for which the name length is the largest. The [`idxmax()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.idxmax.html#pandas.Series.idxmax) method does exactly that. It is not a string method and is applied to integers, so no `str` is used.
+
+```python
+In [12]: titanic.loc[titanic["Name"].str.len().idxmax(), "Name"]
+Out[12]: 'Penasco y Castellana, Mrs. Victor de Satode (Maria Josefa Perez de Soto y Vallejo)'
+```
+
+Based on the index name of the row (`307`) and the column (`Name`), we can do a selection using the loc operator, introduced in the [tutorial on subsetting](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html#min-tut-03-subset).
+
+*In the “Sex” column, replace values of “male” by “M” and values of “female” by “F”.*
+
+```python
+In [13]: titanic["Sex_short"] = titanic["Sex"].replace({"male": "M", "female": "F"})
+
+In [14]: titanic["Sex_short"]
+Out[14]: 
+0      M
+1      F
+2      F
+3      F
+4      M
+      ..
+886    M
+887    F
+888    F
+889    M
+890    M
+Name: Sex_short, Length: 891, dtype: object
+```
+
+Whereas [`replace()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.replace.html#pandas.Series.replace) is not a string method, it provides a convenient way to use mappings or vocabularies to translate certain values. It requires a `dictionary` to define the mapping `{from : to}`.
+
+There is also a [`replace()`](https://pandas.pydata.org/docs/reference/api/pandas.Series.str.replace.html#pandas.Series.str.replace) method available to replace a specific set of characters. However, when having a mapping of multiple values, this would become:
+
+```python
+titanic["Sex_short"] = titanic["Sex"].str.replace("female", "F")
+titanic["Sex_short"] = titanic["Sex_short"].str.replace("male", "M")
+```
+
+This would become cumbersome and easily lead to mistakes. Just think (or try out yourself) what would happen if those two statements are applied in the opposite order…
+
+**REMEMBER**
+- String methods are available using the `str` accessor.
+- String methods work element-wise and can be used for conditional indexing.
+- The `replace` method is a convenient method to convert values according to a given dictionary.
+
+> A full overview is provided in the user guide pages on [working with text data](https://pandas.pydata.org/docs/user_guide/text.html#text).

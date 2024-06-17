@@ -1,4 +1,4 @@
-# 10 分钟入门 pandas（英文）
+# 10 分钟入门 pandas
 
 这是 pandas 的简短介绍，主要针对新用户。你可以在 [Cookbook](https://pandas.pydata.org/docs/user_guide/cookbook.html#cookbook) 中看到更复杂的示例。
 

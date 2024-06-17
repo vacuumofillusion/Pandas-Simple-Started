@@ -714,7 +714,7 @@ In [20]: plt.show()
 ```python
 fig, axs = plt.subplots(figsize=(12, 4))        # 创建一个空的Matplotlib图表和坐标轴
 air_quality.plot.area(ax=axs)                   # 使用pandas将面积图绘制在准备好的图表/坐标轴上
-axs.set_ylabel("NO$_2$ 浓度")                   # 使用Matplotlib进行任何你喜欢的自定义
+axs.set_ylabel("NO$_2$ concentration")          # 使用Matplotlib进行任何你喜欢的自定义
 fig.savefig("no2_concentrations.png")           # 使用现有的Matplotlib方法保存图表/坐标轴
 plt.show()                                      # 显示图表
 ```
@@ -1059,7 +1059,7 @@ Name: Pclass, dtype: int64
 
 > 本教程使用泰坦尼克号数据集，存储为CSV格式。
 
-> （注意：这里似乎有一个小错误，原文“his tutorial”应为“This tutorial”。）本教程使用OpenAQ提供的关于`NO2`和小于2.5微米的颗粒物（Particulate matter）的空气质量数据，并使用py-openaq包进行处理。
+> 本教程使用OpenAQ提供的关于`NO2`和小于2.5微米的颗粒物（Particulate matter）的空气质量数据，并使用py-openaq包进行处理。
 
 ```python
 In [1]: import pandas as pd
